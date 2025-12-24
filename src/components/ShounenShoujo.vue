@@ -174,21 +174,40 @@ const videos = [
 
           <!-- CTA Buttons -->
           <div class="flex flex-col sm:flex-row gap-5 justify-center items-center mb-16">
-            <a href="#activities"
-              class="group relative px-10 py-5 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] rounded-2xl font-black text-lg tracking-wide overflow-hidden transform hover:scale-105 transition-all duration-300">
+
+            <!-- RPD Collection -->
+            <a href="#activities" class="group relative px-10 py-5 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe]
+            rounded-2xl font-black text-lg tracking-wide overflow-hidden
+            transform hover:scale-105 transition-all duration-300">
+
               <span class="relative z-10 flex items-center gap-3">
+
+                <!-- Video / Collection Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg"
+                  class="w-6 h-6 text-black group-hover:scale-110 transition-transform" viewBox="0 0 24 24"
+                  fill="currentColor">
+                  <path d="M4 4h12a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" />
+                  <path d="M16 10l6-4v12l-6-4z" />
+                </svg>
+
                 <span>RPD Collection</span>
-                <span class="text-2xl">🎬</span>
               </span>
-              <div
-                class="absolute inset-0 bg-gradient-to-r from-[#61fdfe] to-[#fea3fe] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              </div>
+
+              <!-- Hover Gradient -->
+              <div class="absolute inset-0 bg-gradient-to-r from-[#61fdfe] to-[#fea3fe]
+                opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </a>
-            <a href="#contact"
-              class="px-10 py-5 bg-white/5 backdrop-blur-xl border-2 border-white/20 rounded-2xl font-black text-lg tracking-wide hover:bg-white/10 hover:border-[#61fdfe] transform hover:scale-105 transition-all duration-300">
+
+            <!-- Book Us -->
+            <a href="#contact" class="px-10 py-5 bg-white/5 backdrop-blur-xl border-2 border-white/20
+            rounded-2xl font-black text-lg tracking-wide text-white
+            hover:bg-white/10 hover:border-[#61fdfe]
+            transform hover:scale-105 transition-all duration-300">
               BOOK US FOR EVENT
             </a>
+
           </div>
+
 
           <!-- Scroll Indicator -->
           <div class="flex justify-center">
