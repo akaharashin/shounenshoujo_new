@@ -49,32 +49,7 @@ const videos = [
   }
 ]
 
-const activities = [
-  {
-    icon: "🎤",
-    title: "Utattemita",
-    desc: "Cover lagu J-Pop & Vocaloid dengan passion",
-    color: "from-[#fea3fe] to-pink-400"
-  },
-  {
-    icon: "💃",
-    title: "Random Play Dance",
-    desc: "Perform RPD di berbagai event lokal",
-    color: "from-[#61fdfe] to-blue-400"
-  },
-  {
-    icon: "🎌",
-    title: "Odottemita",
-    desc: "Dance cover lagu-lagu idol & anime",
-    color: "from-purple-400 to-[#fea3fe]"
-  },
-  {
-    icon: "🎪",
-    title: "Event Participation",
-    desc: "Aktif membawa skena J-Pop ke event lokal",
-    color: "from-pink-400 to-[#61fdfe]"
-  }
-]
+
 </script>
 
 <template>
@@ -285,7 +260,8 @@ const activities = [
             <div class="relative bg-white/5 backdrop-blur-xl rounded-3xl border border-white/20 p-12
               transform hover:scale-105 transition-all duration-500">
 
-              <div class="grid grid-cols-2 gap-8">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+
 
                 <!-- RPD -->
                 <div class="text-center">
@@ -471,7 +447,7 @@ const activities = [
                       d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A5.5 5.5 0 1 0 12 18a5.5 5.5 0 0 0 0-11zm0 2A3.5 3.5 0 1 1 8.5 12 3.5 3.5 0 0 1 12 9.5zm4.8-2.9a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6z" />
                   </svg>
 
-                  <span>DM INSTAGRAM</span>
+                  <span>INSTAGRAM</span>
                 </a>
 
                 <!-- Email -->
