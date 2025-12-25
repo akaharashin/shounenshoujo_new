@@ -85,7 +85,8 @@ const videos = [
         <div class="flex justify-between items-center h-24">
           <!-- Logo -->
           <a href="#home" class="relative cursor-pointer">
-            <div class="relative flex items-center gap-3 px-6 py-3 rounded-2xl">
+            <div class="relative flex items-center gap-3 px-0 md:px-6 py-3 rounded-2xl">
+
               <span class="text-3xl">
                 <img src="../../public/image/ss-pink.png" alt=""
                   class="w-32 transition-all duration-500 hover:opacity-80 hover:scale-105" />
