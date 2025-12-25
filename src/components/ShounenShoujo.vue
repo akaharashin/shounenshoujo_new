@@ -45,7 +45,7 @@ const videos = [
   {
     title: "ODORISHO RPD VOL. 3",
     thumbnail: "/image/thum1.png",
-    link: "https://youtube.com"
+    link: "https://youtu.be/4JzGPu56rQo?si=-j0TfUT7r65LL_E2"
   }
 ]
 
