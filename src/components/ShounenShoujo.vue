@@ -46,6 +46,11 @@ const videos = [
     title: "ODORISHO RPD VOL. 3",
     thumbnail: "/image/thum1.png",
     link: "https://youtu.be/4JzGPu56rQo?si=-j0TfUT7r65LL_E2"
+  },
+  {
+    title: "UTAIMASHO KARAOKE VOL. 1",
+    thumbnail: "/image/thum4.png",
+    link: "https://youtu.be/Kh9qVLhWEmg?si=FgPafIoE-D1b_RKG"
   }
 ]
 
@@ -204,7 +209,7 @@ const videos = [
             rounded-2xl font-black text-lg tracking-wide text-white
             hover:bg-white/10 hover:border-[#61fdfe]
             transform hover:scale-105 transition-all duration-300">
-              BOOK US FOR EVENT
+              BOOK RPD FOR YOUR EVENT
             </a>
 
           </div>
@@ -378,13 +383,13 @@ const videos = [
         <div class="text-center mb-20">
           <div
             class="inline-block px-4 py-2 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] rounded-full text-xs font-black tracking-widest mb-6">
-            OUR WORKS
+            OUR ACTIVITIES
           </div>
           <h2 class="text-5xl lg:text-6xl font-black mb-6">
-            Random Play Dance Session
+            RPD & Karaoke Session
           </h2>
           <p class="text-xl text-white/60 max-w-2xl mx-auto">
-            Saksikan aksi kami di berbagai event melalui video dokumentasi RPD kami.
+            Saksikan aksi kami di berbagai event melalui video dokumentasi kami.
           </p>
         </div>
 
@@ -445,13 +450,27 @@ const videos = [
             <div class="absolute bottom-0 left-0 w-64 h-64 bg-black opacity-20 rounded-full blur-3xl"></div>
 
             <div class="relative z-10">
-              <div class="text-7xl mb-6">🎪</div>
+              <!-- Collaboration Icon -->
+              <div class="mb-6 flex justify-center">
+                <!-- Handshake Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 text-[#61fdfe]" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1.6">
+                  <path d="M4 12l4-4 4 4 4-4 4 4" />
+                  <path d="M2 10l6-6" />
+                  <path d="M22 10l-6-6" />
+                </svg>
+              </div>
+
               <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-6 drop-shadow-2xl">
                 Ready to Collaborate?
               </h2>
+
               <p class="text-xl sm:text-2xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
-                Sedang mencari talent untuk event Anda? Kami siap membawa energi J-Pop ke acara Anda. Book us now!
+                Sedang mencari talent untuk event Anda?
+                Kami siap membawa energi J-Pop ke acara Anda.
+                <span class="font-semibold">Mari berkolaborasi.</span>
               </p>
+
               <div class="flex flex-col sm:flex-row gap-6 justify-center">
 
                 <!-- Instagram -->
