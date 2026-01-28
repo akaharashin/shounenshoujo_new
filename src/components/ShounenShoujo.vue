@@ -6,77 +6,319 @@ const scrolled = ref(false)
 const scrollProgress = ref(0)
 const isLoading = ref(true)
 
-// Intersection Observer untuk scroll animations
-const observedElements = ref(new Set())
+// ============================================
+// 🌍 MULTI-LANGUAGE / i18n SYSTEM
+// ============================================
+
+// Detect user's region/language
+const detectUserLanguage = () => {
+  // 1. Check localStorage (user preference)
+  const saved = localStorage.getItem('preferred-language')
+  if (saved) return saved
+
+  // 2. Check browser language
+  const browserLang = navigator.language || navigator.userLanguage
+
+  // 3. Map to supported languages
+  if (browserLang.startsWith('id')) return 'id' // Indonesian
+  if (browserLang.startsWith('ja')) return 'ja' // Japanese
+  return 'en' // Default to English
+}
+
+// Current language state
+const currentLang = ref(detectUserLanguage())
+
+// Language switcher
+const setLanguage = (lang) => {
+  currentLang.value = lang
+  localStorage.setItem('preferred-language', lang)
+}
+
+// Translation object
+const translations = {
+  id: {
+    // Navigation
+    nav: {
+      home: 'Beranda',
+      about: 'Tentang',
+      activities: 'Kegiatan',
+      contact: 'Kontak'
+    },
+    // Hero Section
+    hero: {
+      badge: 'ANIKURA, KOMUNITAS J-POP',
+      subtitle: 'J-Pop • Anison • Vocaloid • Idol • Odottemita • Utattemita',
+      description: 'J-Pop & Anikura Community yang aktif menghadirkan skena Random Play Dance, Odottemita, dan Utattemita di berbagai event Jejepangan.',
+      ctaCollection: 'Koleksi RPD',
+      ctaBook: 'BOOK RPD UNTUK EVENT ANDA',
+    },
+    // About Section
+    about: {
+      badge: 'TENTANG KAMI',
+      title: 'Membawa Skena',
+      titleHighlight: 'J-Pop ke Event Anda',
+      p1: 'adalah komunitas yang berfokus pada budaya J-Pop,',
+      p1Highlight: '(Anime Club Culture: Anisong, Game, dan Vocaloid),',
+      p1Continue: 'serta berbagai bentuk budaya pop Jepang lainnya. Kami menjadi wadah bagi penggemar J-Pop, Vocaloid, dan Idol untuk berkumpul, berkreasi, dan bersenang-senang bersama.',
+      p2: 'Dengan',
+      p2Highlight: 'yang solid, kami aktif tampil di berbagai event lokal, menghadirkan energi dan vibes J-Pop yang autentik. Mulai dari Utattemita hingga Odottemita, kami siap menghibur dan membuat event Anda semakin meriah.',
+      p3: 'Kami terbuka untuk kolaborasi dengan',
+      p3Highlight: 'Event Organizer',
+      p3Continue: 'yang ingin menghadirkan konten J-Pop dan Anikura di event mereka. Mari ciptakan pengalaman event yang berkesan bersama.',
+      rpd: 'Random Play Dance',
+      utattemita: 'Karaoke / Song Cover',
+      anikura: 'Anisong Club',
+      media: 'Dokumentasi & Konten Jpop'
+    },
+    // Activities Section
+    activities: {
+      badge: 'KEGIATAN KAMI',
+      title: 'RPD & Sesi Karaoke',
+      description: 'Saksikan aksi kami di berbagai event melalui video dokumentasi kami.',
+      share: 'Bagikan',
+      viewAll: 'LIHAT SEMUA VIDEO'
+    },
+    // Contact Section
+    contact: {
+      title: 'Siap Berkolaborasi?',
+      description: 'Sedang mencari talent untuk event Anda? Kami siap membawa energi J-Pop ke acara Anda.',
+      descriptionHighlight: 'Mari berkolaborasi.',
+      ctaInstagram: 'INSTAGRAM',
+      ctaEmail: 'SALIN EMAIL'
+    },
+    // Footer
+    footer: {
+      tagline: 'Membawa Budaya J-Pop ke Kehidupan',
+      copyright: '© 2025 Shounen Shoujo. Dibuat dengan 💖 oleh Akahara'
+    },
+    // Toast Messages
+    toast: {
+      emailCopied: 'Email berhasil disalin! 📋',
+      linkCopied: 'Link berhasil disalin! 🔗'
+    }
+  },
+
+  en: {
+    // Navigation
+    nav: {
+      home: 'Home',
+      about: 'About',
+      activities: 'Activities',
+      contact: 'Contact'
+    },
+    // Hero Section
+    hero: {
+      badge: 'ANIKURA, J-POP COMMUNITY',
+      subtitle: 'J-Pop • Anison • Vocaloid • Idol • Odottemita • Utattemita',
+      description: 'An active J-Pop & Anikura Community bringing Random Play Dance, Odottemita, and Utattemita scenes to various Japanese culture events.',
+      ctaCollection: 'RPD Collection',
+      ctaBook: 'BOOK RPD FOR YOUR EVENT',
+    },
+    // About Section
+    about: {
+      badge: 'ABOUT US',
+      title: 'Bringing J-Pop',
+      titleHighlight: 'to Your Event',
+      p1: 'is a community focused on J-Pop culture,',
+      p1Highlight: '(Anime Club Culture: Anisong, Games, and Vocaloid),',
+      p1Continue: 'and various other forms of Japanese pop culture. We provide a space for J-Pop, Vocaloid, and Idol fans to gather, create, and have fun together.',
+      p2: 'With our solid',
+      p2Highlight: 'we actively perform at various local events, bringing authentic J-Pop energy and vibes. From Utattemita to Odottemita, we\'re ready to entertain and make your event more exciting.',
+      p3: 'We\'re open to collaboration with',
+      p3Highlight: 'Event Organizers',
+      p3Continue: 'who want to bring J-Pop and Anikura content to their events. Let\'s create memorable event experiences together.',
+      rpd: 'Random Play Dance',
+      utattemita: 'Karaoke / Song Cover',
+      anikura: 'Anisong Club',
+      media: 'Documentation & Jpop Content'
+    },
+    // Activities Section
+    activities: {
+      badge: 'OUR ACTIVITIES',
+      title: 'RPD & Karaoke Session',
+      description: 'Watch our performances at various events through our video documentation.',
+      share: 'Share',
+      viewAll: 'VIEW ALL VIDEOS'
+    },
+    // Contact Section
+    contact: {
+      title: 'Ready to Collaborate?',
+      description: 'Looking for talent for your event? We\'re ready to bring J-Pop energy to your occasion.',
+      descriptionHighlight: 'Let\'s collaborate.',
+      ctaInstagram: 'INSTAGRAM',
+      ctaEmail: 'COPY EMAIL'
+    },
+    // Footer
+    footer: {
+      tagline: 'Bringing J-Pop Culture to Life',
+      copyright: '© 2025 Shounen Shoujo. Made with 💖 by Akahara'
+    },
+    // Toast Messages
+    toast: {
+      emailCopied: 'Email copied to clipboard! 📋',
+      linkCopied: 'Link copied to clipboard! 🔗'
+    }
+  },
+
+  ja: {
+    // Navigation
+    nav: {
+      home: 'ホーム',
+      about: '私たちについて',
+      activities: '活動',
+      contact: 'お問い合わせ'
+    },
+    // Hero Section
+    hero: {
+      badge: 'アニクラ、J-POPコミュニティ',
+      subtitle: 'J-Pop • アニソン • ボカロ • アイドル • 踊ってみた • 歌ってみた',
+      description: 'ランダムプレイダンス、踊ってみた、歌ってみたのシーンを様々な日本文化イベントで展開する活発なJ-Pop＆アニクラコミュニティです。',
+      ctaCollection: 'RPDコレクション',
+      ctaBook: 'イベントにRPDを予約する',
+    },
+    // About Section
+    about: {
+      badge: '私たちについて',
+      title: 'J-Popのシーンを',
+      titleHighlight: 'あなたのイベントへ',
+      p1: 'は、J-Pop文化、',
+      p1Highlight: '（アニメクラブカルチャー：アニソン、ゲーム、ボカロ）、',
+      p1Continue: 'および日本のポップカルチャーの様々な形態に焦点を当てたコミュニティです。J-Pop、ボカロ、アイドルファンが集まり、創作し、一緒に楽しむ場を提供しています。',
+      p2: '堅実な',
+      p2Highlight: 'で、私たちは様々なローカルイベントで積極的にパフォーマンスを行い、本格的なJ-Popのエネルギーと雰囲気をもたらしています。歌ってみたから踊ってみたまで、あなたのイベントをより盛り上げる準備ができています。',
+      p3: 'イベントにJ-Popとアニクラコンテンツを取り入れたい',
+      p3Highlight: 'イベントオーガナイザー',
+      p3Continue: 'とのコラボレーションを歓迎しています。一緒に思い出に残るイベント体験を作りましょう。',
+      rpd: 'ランダムプレイダンス',
+      utattemita: 'カラオケ / 歌ってみた',
+      anikura: 'アニソンクラブ',
+      media: 'ドキュメンテーション & Jpopコンテンツ'
+    },
+    // Activities Section
+    activities: {
+      badge: '私たちの活動',
+      title: 'RPD ＆ カラオケセッション',
+      description: '様々なイベントでのパフォーマンスをビデオドキュメンテーションでご覧ください。',
+      share: 'シェア',
+      viewAll: 'すべてのビデオを見る'
+    },
+    // Contact Section
+    contact: {
+      title: 'コラボレーションの準備はできていますか？',
+      description: 'イベントのタレントをお探しですか？私たちはあなたのイベントにJ-Popのエネルギーをもたらす準備ができています。',
+      descriptionHighlight: '一緒にコラボレーションしましょう。',
+      ctaInstagram: 'インスタグラム',
+      ctaEmail: 'メールをコピー'
+    },
+    // Footer
+    footer: {
+      tagline: 'J-Pop文化を生き生きと',
+      copyright: '© 2025 Shounen Shoujo. 💖で作られました by Akahara'
+    },
+    // Toast Messages
+    toast: {
+      emailCopied: 'メールがコピーされました！📋',
+      linkCopied: 'リンクがコピーされました！🔗'
+    }
+  }
+}
+
+// Computed property untuk akses translation
+const t = computed(() => translations[currentLang.value])
+
+// Language names untuk dropdown
+const languages = [
+  { code: 'id', name: 'Indonesia', flag: 'ɪᴅ' },
+  { code: 'en', name: 'English', flag: 'ᴇɴ' },
+  { code: 'ja', name: '日本語', flag: 'ᴊᴘ' }
+]
+
+const isLangMenuOpen = ref(false)
+
+// ============================================
+// END OF i18n SYSTEM
+// ============================================
 
 const handleScroll = () => {
   scrolled.value = window.scrollY > 50
-  
-  // Calculate scroll progress
   const windowHeight = document.documentElement.scrollHeight - window.innerHeight
   scrollProgress.value = (window.scrollY / windowHeight) * 100
 }
 
-// Close menu on outside click
 const closeMenuOnOutsideClick = (event) => {
   const mobileMenu = document.querySelector('.mobile-menu')
   const menuButton = document.querySelector('.menu-button')
-  
+  const langMenu = document.querySelector('.lang-menu')
+  const langButton = document.querySelector('.lang-button')
+
+  // Check if click is inside mobile menu (termasuk language section)
+  if (mobileMenu && mobileMenu.contains(event.target)) {
+    // Jika click pada language button di dalam mobile menu, allow it
+    return
+  }
+
+  // Check if click is inside language dropdown
+  if (langMenu && langMenu.contains(event.target)) {
+    return
+  }
+
+  if (langButton && langButton.contains(event.target)) {
+    return
+  }
+
   if (isMenuOpen.value && mobileMenu && !mobileMenu.contains(event.target) && !menuButton.contains(event.target)) {
     isMenuOpen.value = false
   }
-}
 
-// Close menu on escape key
-const handleEscapeKey = (event) => {
-  if (event.key === 'Escape' && isMenuOpen.value) {
-    isMenuOpen.value = false
+  if (isLangMenuOpen.value && langMenu && !langMenu.contains(event.target) && !langButton.contains(event.target)) {
+    isLangMenuOpen.value = false
   }
 }
 
-// Setup Intersection Observer for scroll animations
+const handleEscapeKey = (event) => {
+  if (event.key === 'Escape') {
+    if (isMenuOpen.value) isMenuOpen.value = false
+    if (isLangMenuOpen.value) isLangMenuOpen.value = false
+  }
+}
+
 const setupIntersectionObserver = () => {
   const options = {
     threshold: 0.1,
     rootMargin: '0px 0px -100px 0px'
   }
-  
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('animate-in')
-        observedElements.value.add(entry.target)
       }
     })
   }, options)
-  
-  // Observe all elements with scroll-animate class
+
   document.querySelectorAll('.scroll-animate').forEach(el => {
     observer.observe(el)
   })
-  
+
   return observer
 }
 
-// Copy to clipboard with toast notification
 const copyEmail = async () => {
   const email = 'shounenshoujo19@email.com'
   try {
     await navigator.clipboard.writeText(email)
-    showToast('Email copied to clipboard! 📋')
+    showToast(t.value.toast.emailCopied)
   } catch (err) {
-    // Fallback for older browsers
     const textArea = document.createElement('textarea')
     textArea.value = email
     document.body.appendChild(textArea)
     textArea.select()
     document.execCommand('copy')
     document.body.removeChild(textArea)
-    showToast('Email copied to clipboard! 📋')
+    showToast(t.value.toast.emailCopied)
   }
 }
 
-// Toast notification
 const toastMessage = ref('')
 const showToastFlag = ref(false)
 const showToast = (message) => {
@@ -88,27 +330,24 @@ const showToast = (message) => {
 }
 
 onMounted(() => {
-  // Simulate loading
   setTimeout(() => {
     isLoading.value = false
   }, 500)
-  
+
   window.addEventListener('scroll', handleScroll)
   document.addEventListener('click', closeMenuOnOutsideClick)
   document.addEventListener('keydown', handleEscapeKey)
-  
-  // Setup intersection observer after component mounted
+
   setTimeout(() => {
     setupIntersectionObserver()
   }, 100)
 
-  // Smooth scroll untuk semua anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault()
       const target = document.querySelector(this.getAttribute('href'))
       if (target) {
-        isMenuOpen.value = false // Close mobile menu
+        isMenuOpen.value = false
         target.scrollIntoView({
           behavior: 'smooth',
           block: 'start'
@@ -124,7 +363,6 @@ onUnmounted(() => {
   document.removeEventListener('keydown', handleEscapeKey)
 })
 
-// Video Portfolio
 const videos = [
   {
     title: "ODORISHO RPD VOL. 1",
@@ -148,7 +386,6 @@ const videos = [
   }
 ]
 
-// Share video function
 const shareVideo = async (video) => {
   if (navigator.share) {
     try {
@@ -170,7 +407,7 @@ const shareVideo = async (video) => {
 const copyToClipboard = async (text) => {
   try {
     await navigator.clipboard.writeText(text)
-    showToast('Link copied to clipboard! 🔗')
+    showToast(t.value.toast.linkCopied)
   } catch (err) {
     console.error('Failed to copy:', err)
   }
@@ -180,40 +417,32 @@ const copyToClipboard = async (text) => {
 <template>
   <div class="min-h-screen bg-black text-white overflow-x-hidden">
     <!-- Loading Screen -->
-    <transition
-      enter-active-class="transition-opacity duration-300"
-      leave-active-class="transition-opacity duration-500"
-      enter-from-class="opacity-100"
-      leave-to-class="opacity-0"
-    >
+    <transition enter-active-class="transition-opacity duration-300"
+      leave-active-class="transition-opacity duration-500" enter-from-class="opacity-100" leave-to-class="opacity-0">
       <div v-if="isLoading" class="fixed inset-0 bg-black z-[100] flex items-center justify-center">
         <div class="text-center">
-          <div class="w-20 h-20 border-4 border-[#fea3fe] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div class="w-20 h-20 border-4 border-[#fea3fe] border-t-transparent rounded-full animate-spin mx-auto mb-4">
+          </div>
           <p class="text-white/60 font-bold">Loading...</p>
         </div>
       </div>
     </transition>
 
     <!-- Toast Notification -->
-    <transition
-      enter-active-class="transition-all duration-300 ease-out"
-      leave-active-class="transition-all duration-200 ease-in"
-      enter-from-class="opacity-0 translate-y-2"
-      enter-to-class="opacity-100 translate-y-0"
-      leave-from-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 translate-y-2"
-    >
-      <div v-if="showToastFlag" class="fixed top-24 left-1/2 -translate-x-1/2 z-[60] px-6 py-4 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl">
+    <transition enter-active-class="transition-all duration-300 ease-out"
+      leave-active-class="transition-all duration-200 ease-in" enter-from-class="opacity-0 translate-y-2"
+      enter-to-class="opacity-100 translate-y-0" leave-from-class="opacity-100 translate-y-0"
+      leave-to-class="opacity-0 translate-y-2">
+      <div v-if="showToastFlag"
+        class="fixed top-24 left-1/2 -translate-x-1/2 z-[60] px-6 py-4 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl">
         <p class="text-white font-bold">{{ toastMessage }}</p>
       </div>
     </transition>
 
     <!-- Scroll Progress Bar -->
     <div class="fixed top-0 left-0 w-full h-1 bg-white/10 z-[60]">
-      <div 
-        class="h-full bg-gradient-to-r from-[#fea3fe] via-purple-400 to-[#61fdfe] transition-all duration-150"
-        :style="{ width: `${scrollProgress}%` }"
-      ></div>
+      <div class="h-full bg-gradient-to-r from-[#fea3fe] via-purple-400 to-[#61fdfe] transition-all duration-150"
+        :style="{ width: `${scrollProgress}%` }"></div>
     </div>
 
     <!-- Japanese Pattern Background -->
@@ -223,7 +452,7 @@ const copyToClipboard = async (text) => {
       </div>
     </div>
 
-    <!-- Animated Gradient Blobs with Parallax -->
+    <!-- Animated Gradient Blobs -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
       <div
         class="absolute -top-40 -right-40 w-[600px] h-[600px] bg-[#fea3fe] opacity-20 rounded-full blur-[120px] animate-pulse will-change-transform"
@@ -242,59 +471,87 @@ const copyToClipboard = async (text) => {
     </div>
 
     <!-- Navigation -->
-    <nav 
-      :class="[
-        'fixed w-full z-50 transition-all duration-500',
-        scrolled
-          ? 'bg-black/90 backdrop-blur-2xl border-b border-white/10'
-          : 'bg-transparent'
-      ]"
-      role="navigation"
-      aria-label="Main navigation"
-    >
+    <nav :class="[
+      'fixed w-full z-50 transition-all duration-500',
+      scrolled
+        ? 'bg-black/90 backdrop-blur-2xl border-b border-white/10'
+        : 'bg-transparent'
+    ]" role="navigation" aria-label="Main navigation">
       <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <div class="flex justify-between items-center h-24">
           <!-- Logo -->
-          <a href="#home" class="relative cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe] rounded-xl" aria-label="Shounen Shoujo Home">
+          <a href="#home"
+            class="relative cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe] rounded-xl"
+            aria-label="Shounen Shoujo Home">
             <div class="relative flex items-center gap-3 px-0 md:px-6 py-3 rounded-2xl">
               <span class="text-3xl">
-                <img 
-                  src="/image/ss-pink.png" 
-                  alt="Shounen Shoujo Logo"
-                  loading="eager"
-                  class="w-32 transition-all duration-500 hover:opacity-80 hover:scale-105 will-change-transform" 
-                />
+                <img src="/image/ss-pink.png" alt="Shounen Shoujo Logo" loading="eager"
+                  class="w-32 transition-all duration-500 hover:opacity-80 hover:scale-105 will-change-transform" />
               </span>
             </div>
           </a>
 
           <!-- Desktop Menu -->
           <div class="hidden md:flex items-center gap-2">
-            <a 
-              v-for="item in ['Home', 'About', 'Activities', 'Contact']" 
-              :key="item" 
-              :href="`#${item.toLowerCase()}`"
-              :aria-label="`Navigate to ${item} section`"
-              class="relative px-6 py-3 font-bold text-sm tracking-wide text-white/80 hover:text-white transition-all duration-300 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe] rounded-xl"
-            >
+            <a v-for="(item, key) in t.nav" :key="key" :href="`#${key}`" :aria-label="`Navigate to ${item} section`"
+              class="relative px-6 py-3 font-bold text-sm tracking-wide text-white/80 hover:text-white transition-all duration-300 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe] rounded-xl">
               <span class="relative z-10">{{ item.toUpperCase() }}</span>
               <div
                 class="absolute inset-0 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 will-change-opacity">
               </div>
               <div
-                class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] group-hover:w-full transition-all duration-300 will-change-auto">
+                class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] group-hover:w-full transition-all duration-300">
               </div>
             </a>
+
+            <!-- Language Switcher Desktop -->
+            <div class="relative ml-4">
+              <button @click.stop="isLangMenuOpen = !isLangMenuOpen"
+                class="lang-button flex items-center justify-center gap-3 px-5 py-3 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-[#fea3fe]/50 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe]"
+                :aria-label="`Current language: ${languages.find(l => l.code === currentLang).name}`">
+
+                <span class="text-base font-bold leading-none tracking-tight">
+                  {{languages.find(l => l.code === currentLang).flag}}
+                </span>
+
+                <svg class="w-4 h-4 transition-transform duration-300" :class="{ 'rotate-180': isLangMenuOpen }"
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+              <!-- Language Dropdown -->
+              <transition enter-active-class="transition duration-200 ease-out"
+                enter-from-class="opacity-0 scale-95 -translate-y-2"
+                enter-to-class="opacity-100 scale-100 translate-y-0"
+                leave-active-class="transition duration-150 ease-in"
+                leave-from-class="opacity-100 scale-100 translate-y-0"
+                leave-to-class="opacity-0 scale-95 -translate-y-2">
+                <div v-if="isLangMenuOpen"
+                  class="lang-menu absolute right-0 mt-3 w-48 bg-black/95 backdrop-blur-xl border border-white/20 rounded-xl overflow-hidden shadow-2xl">
+                  <button v-for="lang in languages" :key="lang.code"
+                    @click.stop="setLanguage(lang.code); isLangMenuOpen = false"
+                    class="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/10 transition-all text-left group"
+                    :class="{ 'bg-gradient-to-r from-[#fea3fe]/10 to-[#61fdfe]/10 border-l-2 border-[#fea3fe]': currentLang === lang.code }">
+                    <span class="text-xl group-hover:scale-110 transition-transform">{{ lang.flag }}</span>
+                    <span class="font-bold text-sm flex-1">{{ lang.name }}</span>
+                    <svg v-if="currentLang === lang.code" class="w-5 h-5 text-[#fea3fe]" fill="currentColor"
+                      viewBox="0 0 20 20">
+                      <path fill-rule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                  </button>
+                </div>
+              </transition>
+            </div>
           </div>
 
           <!-- Mobile Menu Button -->
-          <button 
-            @click="isMenuOpen = !isMenuOpen"
+          <button @click="isMenuOpen = !isMenuOpen"
             class="menu-button md:hidden p-3 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe]"
-            :aria-label="isMenuOpen ? 'Close menu' : 'Open menu'"
-            aria-expanded="isMenuOpen"
-          >
-            <svg v-if="!isMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            :aria-label="isMenuOpen ? 'Close menu' : 'Open menu'" aria-expanded="isMenuOpen">
+            <svg v-if="!isMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
             <svg v-else class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -303,43 +560,45 @@ const copyToClipboard = async (text) => {
           </button>
         </div>
 
-        <!-- Mobile Menu with Backdrop -->
-        <transition 
-          enter-active-class="transition duration-300 ease-out" 
-          enter-from-class="opacity-0 -translate-y-4"
-          enter-to-class="opacity-100 translate-y-0" 
-          leave-active-class="transition duration-200 ease-in"
-          leave-from-class="opacity-100 translate-y-0" 
-          leave-to-class="opacity-0 -translate-y-4"
-        >
+        <!-- Mobile Menu -->
+        <transition enter-active-class="transition duration-300 ease-out" enter-from-class="opacity-0 -translate-y-4"
+          enter-to-class="opacity-100 translate-y-0" leave-active-class="transition duration-200 ease-in"
+          leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 -translate-y-4">
           <div v-if="isMenuOpen" class="mobile-menu md:hidden pb-6 space-y-2">
-            <a 
-              v-for="item in ['Home', 'About', 'Activities', 'Contact']" 
-              :key="item" 
-              :href="`#${item.toLowerCase()}`"
-              @click="isMenuOpen = false"
+            <a v-for="(item, key) in t.nav" :key="key" :href="`#${key}`" @click="isMenuOpen = false"
               :aria-label="`Navigate to ${item} section`"
-              class="block px-6 py-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 font-bold text-sm tracking-wide hover:bg-white/10 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe]"
-            >
+              class="block px-6 py-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 font-bold text-sm tracking-wide hover:bg-white/10 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe]">
               {{ item.toUpperCase() }}
             </a>
+
+            <!-- Language Switcher Mobile -->
+            <div class="pt-4 border-t border-white/10 mt-4">
+              <p class="px-6 py-2 text-xs text-white/40 font-black tracking-widest">SELECT LANGUAGE</p>
+              <div class="space-y-2">
+                <button v-for="lang in languages" :key="lang.code"
+                  @click.stop="setLanguage(lang.code); isMenuOpen = false"
+                  class="w-full flex items-center gap-4 px-6 py-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-[#fea3fe]/50 transition-all group"
+                  :class="{ 'bg-gradient-to-r from-[#fea3fe]/10 to-[#61fdfe]/10 border-[#fea3fe] ring-1 ring-[#fea3fe]/30': currentLang === lang.code }">
+                  <span class="text-2xl group-hover:scale-110 transition-transform">{{ lang.flag }}</span>
+                  <span class="font-bold text-base flex-1 text-left">{{ lang.name }}</span>
+                  <svg v-if="currentLang === lang.code" class="w-5 h-5 text-[#fea3fe]" fill="currentColor"
+                    viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clip-rule="evenodd"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
         </transition>
       </div>
-      
+
       <!-- Mobile Menu Backdrop -->
-      <transition
-        enter-active-class="transition-opacity duration-300"
-        leave-active-class="transition-opacity duration-200"
-        enter-from-class="opacity-0"
-        leave-to-class="opacity-0"
-      >
-        <div 
-          v-if="isMenuOpen" 
-          class="fixed inset-0 bg-black/60 backdrop-blur-sm -z-10 md:hidden"
-          @click="isMenuOpen = false"
-          aria-hidden="true"
-        ></div>
+      <transition enter-active-class="transition-opacity duration-300"
+        leave-active-class="transition-opacity duration-200" enter-from-class="opacity-0" leave-to-class="opacity-0">
+        <div v-if="isMenuOpen" class="fixed inset-0 bg-black/60 backdrop-blur-sm -z-10 md:hidden"
+          @click="isMenuOpen = false" aria-hidden="true"></div>
       </transition>
     </nav>
 
@@ -347,17 +606,15 @@ const copyToClipboard = async (text) => {
     <section id="home" class="relative min-h-screen flex items-center justify-center px-6 lg:px-8 pt-24">
       <div class="max-w-7xl mx-auto w-full relative z-10">
         <div class="text-center scroll-animate">
-          <!-- Accent Badge -->
           <div
             class="inline-flex items-center gap-3 px-6 py-3 mb-8 bg-white/5 backdrop-blur-xl rounded-full border border-white/20">
             <span class="relative flex h-3 w-3">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#fea3fe] opacity-75"></span>
               <span class="relative inline-flex rounded-full h-3 w-3 bg-[#fea3fe]"></span>
             </span>
-            <span class="text-sm font-bold tracking-wider text-white/90">ANIKURA, J-POP COMMUNITY</span>
+            <span class="text-sm font-bold tracking-wider text-white/90">{{ t.hero.badge }}</span>
           </div>
 
-          <!-- Main Title -->
           <h1 class="text-6xl sm:text-7xl lg:text-8xl font-black mb-6 leading-none">
             <span
               class="inline-block bg-gradient-to-r from-[#fea3fe] via-purple-400 to-[#61fdfe] bg-clip-text text-transparent drop-shadow-2xl animate-pulse will-change-opacity"
@@ -373,57 +630,45 @@ const copyToClipboard = async (text) => {
           </h1>
 
           <p class="text-xl sm:text-2xl lg:text-3xl text-white/70 mb-4 font-bold tracking-wide">
-            J-Pop • Anison • Vocaloid • Idol • Odottemita • Utattemita
+            {{ t.hero.subtitle }}
           </p>
 
           <p class="text-lg sm:text-xl text-white/50 max-w-3xl mx-auto mb-12 leading-relaxed">
-            J-Pop & Anikura Community yang aktif menghadirkan skena Random Play Dance, Odottemita, dan Utattemita di
-            berbagai event Jejepangan.
+            {{ t.hero.description }}
           </p>
 
-          <!-- CTA Buttons -->
           <div class="flex flex-col sm:flex-row gap-5 justify-center items-center mb-16">
-            <!-- RPD Collection -->
-            <a 
-              href="#activities" 
-              class="group relative px-10 py-5 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe]
+            <a href="#activities" class="group relative px-10 py-5 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe]
                 rounded-2xl font-black text-lg tracking-wide overflow-hidden
                 transform hover:scale-105 transition-all duration-300 will-change-transform
-                focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50
-                ripple-button"
-              aria-label="View RPD Collection"
-            >
+                focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50"
+              :aria-label="t.hero.ctaCollection">
               <span class="relative z-10 flex items-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg"
-                  class="w-6 h-6 text-black group-hover:scale-110 transition-transform will-change-transform" viewBox="0 0 24 24"
-                  fill="currentColor" aria-hidden="true">
+                  class="w-6 h-6 text-black group-hover:scale-110 transition-transform will-change-transform"
+                  viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M4 4h12a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" />
                   <path d="M16 10l6-4v12l-6-4z" />
                 </svg>
-                <span>RPD Collection</span>
+                <span>{{ t.hero.ctaCollection }}</span>
               </span>
               <div class="absolute inset-0 bg-gradient-to-r from-[#61fdfe] to-[#fea3fe]
                 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </a>
 
-            <!-- Book Us -->
-            <a 
-              href="#contact" 
-              class="px-10 py-5 bg-white/5 backdrop-blur-xl border-2 border-white/20
+            <a href="#contact" class="px-10 py-5 bg-white/5 backdrop-blur-xl border-2 border-white/20
                 rounded-2xl font-black text-lg tracking-wide text-white
                 hover:bg-white/10 hover:border-[#61fdfe]
                 transform hover:scale-105 transition-all duration-300 will-change-transform
-                focus:outline-none focus-visible:ring-4 focus-visible:ring-[#61fdfe]/50"
-              aria-label="Book RPD for your event"
-            >
-              BOOK RPD FOR YOUR EVENT
+                focus:outline-none focus-visible:ring-4 focus-visible:ring-[#61fdfe]/50" :aria-label="t.hero.ctaBook">
+              {{ t.hero.ctaBook }}
             </a>
           </div>
 
-          <!-- Scroll Indicator -->
           <div class="flex justify-center">
             <div class="animate-bounce">
-              <svg class="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <svg class="w-6 h-6 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3">
                 </path>
               </svg>
@@ -437,58 +682,49 @@ const copyToClipboard = async (text) => {
     <section id="about" class="relative py-32 px-6 lg:px-8">
       <div class="max-w-7xl mx-auto relative z-10">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
-          <!-- Left Content -->
           <div class="scroll-animate">
             <div
               class="inline-block px-4 py-2 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] rounded-full text-xs font-black tracking-widest mb-6">
-              ABOUT US
+              {{ t.about.badge }}
             </div>
             <h2 class="text-5xl lg:text-6xl font-black mb-8 leading-tight">
-              Membawa Skena
+              {{ t.about.title }}
               <span class="block bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] bg-clip-text text-transparent">
-                J-Pop ke Event Anda
+                {{ t.about.titleHighlight }}
               </span>
             </h2>
 
             <div class="space-y-6 text-lg text-white/70 leading-relaxed">
               <p>
-                <strong class="text-white">Shounen Shoujo</strong> adalah komunitas yang berfokus pada budaya J-Pop,
-                <strong class="text-[#61fdfe]">Anikura</strong> (Anime Club Culture: Anisong, Game, dan Vocaloid),
-                serta berbagai bentuk budaya pop Jepang lainnya.
-                Kami menjadi wadah bagi penggemar J-Pop, Vocaloid, dan Idol
-                untuk berkumpul, berkreasi, dan bersenang-senang bersama.
+                <strong class="text-white">Shounen Shoujo</strong> {{ t.about.p1 }}
+                <strong class="text-[#61fdfe]">Anikura</strong> {{ t.about.p1Highlight }}
+                {{ t.about.p1Continue }}
               </p>
 
               <p>
-                Dengan <strong class="text-[#fea3fe]">Random Play Dance Team</strong> yang solid,
-                kami aktif tampil di berbagai event lokal,
-                menghadirkan energi dan vibes J-Pop yang autentik.
-                Mulai dari Utattemita hingga Odottemita,
-                kami siap menghibur dan membuat event Anda semakin meriah.
+                {{ t.about.p2 }} <strong class="text-[#fea3fe]">Random Play Dance Team</strong> {{ t.about.p2Highlight
+                }}
               </p>
 
               <p>
-                Kami terbuka untuk kolaborasi dengan
-                <strong class="text-[#61fdfe]">Event Organizer</strong>
-                yang ingin menghadirkan konten J-Pop dan Anikura di event mereka.
-                Mari ciptakan pengalaman event yang berkesan bersama.
+                {{ t.about.p3 }}
+                <strong class="text-[#61fdfe]">{{ t.about.p3Highlight }}</strong>
+                {{ t.about.p3Continue }}
               </p>
             </div>
           </div>
 
-          <!-- Right Visual -->
           <div class="relative scroll-animate">
-            <!-- Glow -->
-            <div class="absolute inset-0 bg-gradient-to-br from-[#fea3fe] to-[#61fdfe] rounded-3xl blur-3xl opacity-30 will-change-opacity">
+            <div
+              class="absolute inset-0 bg-gradient-to-br from-[#fea3fe] to-[#61fdfe] rounded-3xl blur-3xl opacity-30 will-change-opacity">
             </div>
 
-            <!-- Glass Card -->
             <div class="relative bg-white/5 backdrop-blur-xl rounded-3xl border border-white/20 p-12
               transform hover:scale-105 transition-all duration-500 will-change-transform">
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <!-- RPD -->
-                <div class="text-center transform hover:scale-110 transition-transform duration-300 will-change-transform">
+                <div
+                  class="text-center transform hover:scale-110 transition-transform duration-300 will-change-transform">
                   <div class="mb-4 flex justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-[#61fdfe]" viewBox="0 0 24 24"
                       fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
@@ -503,12 +739,12 @@ const copyToClipboard = async (text) => {
                     RPD
                   </div>
                   <div class="text-sm text-white/60 font-semibold">
-                    Random Play Dance
+                    {{ t.about.rpd }}
                   </div>
                 </div>
 
-                <!-- Utattemita -->
-                <div class="text-center transform hover:scale-110 transition-transform duration-300 will-change-transform">
+                <div
+                  class="text-center transform hover:scale-110 transition-transform duration-300 will-change-transform">
                   <div class="mb-4 flex justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-[#fea3fe]" viewBox="0 0 24 24"
                       fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
@@ -522,12 +758,12 @@ const copyToClipboard = async (text) => {
                     Utattemita
                   </div>
                   <div class="text-sm text-white/60 font-semibold">
-                    Karaoke / Song Cover
+                    {{ t.about.utattemita }}
                   </div>
                 </div>
 
-                <!-- Anikura -->
-                <div class="text-center transform hover:scale-110 transition-transform duration-300 will-change-transform">
+                <div
+                  class="text-center transform hover:scale-110 transition-transform duration-300 will-change-transform">
                   <div class="mb-4 flex justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-purple-400" viewBox="0 0 24 24"
                       fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
@@ -541,12 +777,12 @@ const copyToClipboard = async (text) => {
                     Anikura
                   </div>
                   <div class="text-sm text-white/60 font-semibold">
-                    Anisong Club
+                    {{ t.about.anikura }}
                   </div>
                 </div>
 
-                <!-- Media -->
-                <div class="text-center transform hover:scale-110 transition-transform duration-300 will-change-transform">
+                <div
+                  class="text-center transform hover:scale-110 transition-transform duration-300 will-change-transform">
                   <div class="mb-4 flex justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-pink-400" viewBox="0 0 24 24"
                       fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
@@ -559,7 +795,7 @@ const copyToClipboard = async (text) => {
                     Media
                   </div>
                   <div class="text-sm text-white/60 font-semibold">
-                    Documentation & Jpop Content
+                    {{ t.about.media }}
                   </div>
                 </div>
               </div>
@@ -569,50 +805,37 @@ const copyToClipboard = async (text) => {
       </div>
     </section>
 
-    <!-- Portfolio Section -->
+    <!-- Activities Section -->
     <section id="activities"
       class="relative py-32 px-6 lg:px-8 bg-gradient-to-b from-transparent via-[#fea3fe]/5 to-transparent">
       <div class="max-w-7xl mx-auto relative z-10">
         <div class="text-center mb-20 scroll-animate">
           <div
             class="inline-block px-4 py-2 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] rounded-full text-xs font-black tracking-widest mb-6">
-            OUR ACTIVITIES
+            {{ t.activities.badge }}
           </div>
           <h2 class="text-5xl lg:text-6xl font-black mb-6">
-            RPD & Karaoke Session
+            {{ t.activities.title }}
           </h2>
           <p class="text-xl text-white/60 max-w-2xl mx-auto">
-            Saksikan aksi kami di berbagai event melalui video dokumentasi kami.
+            {{ t.activities.description }}
           </p>
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div 
-            v-for="(video, idx) in videos" 
-            :key="idx" 
-            class="group relative scroll-animate video-card"
-            :style="{ animationDelay: `${idx * 100}ms` }"
-          >
+          <div v-for="(video, idx) in videos" :key="idx" class="group relative scroll-animate video-card"
+            :style="{ animationDelay: `${idx * 100}ms` }">
             <div
               class="absolute -inset-1 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] rounded-3xl blur-xl opacity-0 group-hover:opacity-75 transition-all duration-500 will-change-opacity">
             </div>
             <div
-              class="relative block bg-white/5 backdrop-blur-xl rounded-3xl overflow-hidden border border-white/20 transform group-hover:scale-105 transition-all duration-500 will-change-transform"
-            >
-              <a 
-                :href="video.link" 
-                target="_blank" 
-                rel="noopener noreferrer"
+              class="relative block bg-white/5 backdrop-blur-xl rounded-3xl overflow-hidden border border-white/20 transform group-hover:scale-105 transition-all duration-500 will-change-transform">
+              <a :href="video.link" target="_blank" rel="noopener noreferrer"
                 :aria-label="`Watch ${video.title} on YouTube`"
-                class="block focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50 rounded-3xl"
-              >
+                class="block focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50 rounded-3xl">
                 <div class="aspect-video relative overflow-hidden">
-                  <img 
-                    :src="video.thumbnail" 
-                    :alt="`Thumbnail for ${video.title}`"
-                    loading="lazy"
-                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 will-change-transform" 
-                  />
+                  <img :src="video.thumbnail" :alt="`Thumbnail for ${video.title}`" loading="lazy"
+                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 will-change-transform" />
                   <div
                     class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div
@@ -629,19 +852,17 @@ const copyToClipboard = async (text) => {
                   class="text-xl font-black text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-[#fea3fe] group-hover:to-[#61fdfe] group-hover:bg-clip-text transition-all duration-300 mb-3">
                   {{ video.title }}
                 </h3>
-                
-                <!-- Share Button -->
-                <button
-                  @click="shareVideo(video)"
+
+                <button @click="shareVideo(video)"
                   class="flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe] rounded px-2 py-1"
-                  :aria-label="`Share ${video.title}`"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/>
-                    <polyline points="16 6 12 2 8 6"/>
-                    <line x1="12" y1="2" x2="12" y2="15"/>
+                  :aria-label="`Share ${video.title}`">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8" />
+                    <polyline points="16 6 12 2 8 6" />
+                    <line x1="12" y1="2" x2="12" y2="15" />
                   </svg>
-                  <span class="font-semibold">Share</span>
+                  <span class="font-semibold">{{ t.activities.share }}</span>
                 </button>
               </div>
             </div>
@@ -649,14 +870,10 @@ const copyToClipboard = async (text) => {
         </div>
 
         <div class="text-center mt-16 scroll-animate">
-          <a 
-            href="https://www.youtube.com/@ShounenShoujou" 
-            target="_blank" 
-            rel="noopener noreferrer"
+          <a href="https://www.youtube.com/@ShounenShoujou" target="_blank" rel="noopener noreferrer"
             class="inline-flex items-center gap-3 px-8 py-4 bg-white/5 backdrop-blur-xl border-2 border-white/20 rounded-2xl font-black tracking-wide hover:bg-white/10 hover:border-[#fea3fe] transform hover:scale-105 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50"
-            aria-label="View all videos on YouTube"
-          >
-            <span>LIHAT SEMUA VIDEO</span>
+            :aria-label="t.activities.viewAll">
+            <span>{{ t.activities.viewAll }}</span>
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
             </svg>
@@ -665,7 +882,7 @@ const copyToClipboard = async (text) => {
       </div>
     </section>
 
-    <!-- Contact/CTA Section -->
+    <!-- Contact Section -->
     <section id="contact" class="relative py-32 px-6 lg:px-8">
       <div class="max-w-5xl mx-auto relative z-10 scroll-animate">
         <div class="relative">
@@ -674,15 +891,13 @@ const copyToClipboard = async (text) => {
           </div>
           <div
             class="relative bg-gradient-to-br from-[#fea3fe] via-purple-500 to-[#61fdfe] rounded-[3rem] p-16 text-center overflow-hidden border-4 border-white/20">
-            <!-- Decorative Elements -->
             <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
             <div class="absolute bottom-0 left-0 w-64 h-64 bg-black opacity-20 rounded-full blur-3xl"></div>
 
             <div class="relative z-10">
-              <!-- Collaboration Icon -->
               <div class="mb-6 flex justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 text-white drop-shadow-lg" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 text-white drop-shadow-lg" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
                   <path d="M4 12l4-4 4 4 4-4 4 4" />
                   <path d="M2 10l6-6" />
                   <path d="M22 10l-6-6" />
@@ -690,53 +905,42 @@ const copyToClipboard = async (text) => {
               </div>
 
               <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-6 drop-shadow-2xl">
-                Ready to Collaborate?
+                {{ t.contact.title }}
               </h2>
 
               <p class="text-xl sm:text-2xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
-                Sedang mencari talent untuk event Anda?
-                Kami siap membawa energi J-Pop ke acara Anda.
-                <span class="font-semibold">Mari berkolaborasi.</span>
+                {{ t.contact.description }}
+                <span class="font-semibold">{{ t.contact.descriptionHighlight }}</span>
               </p>
 
               <div class="flex flex-col sm:flex-row gap-6 justify-center">
-                <!-- Instagram -->
-                <a 
-                  href="https://instagram.com/shounenshoujo_" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  class="group px-10 py-5 bg-white text-black rounded-2xl font-black text-lg tracking-wide
+                <a href="https://instagram.com/shounenshoujo_" target="_blank" rel="noopener noreferrer" class="group px-10 py-5 bg-white text-black rounded-2xl font-black text-lg tracking-wide
                     transform hover:scale-105 transition-all duration-300 will-change-transform
                     flex items-center justify-center gap-4
                     focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50"
-                  aria-label="Follow us on Instagram"
-                >
+                  :aria-label="t.contact.ctaInstagram">
                   <svg xmlns="http://www.w3.org/2000/svg"
-                    class="w-6 h-6 text-black group-hover:scale-110 transition-transform will-change-transform" viewBox="0 0 24 24"
-                    fill="currentColor" aria-hidden="true">
+                    class="w-6 h-6 text-black group-hover:scale-110 transition-transform will-change-transform"
+                    viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path
                       d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A5.5 5.5 0 1 0 12 18a5.5 5.5 0 0 0 0-11zm0 2A3.5 3.5 0 1 1 8.5 12 3.5 3.5 0 0 1 12 9.5zm4.8-2.9a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6z" />
                   </svg>
-                  <span>INSTAGRAM</span>
+                  <span>{{ t.contact.ctaInstagram }}</span>
                 </a>
 
-                <!-- Email with Copy Function -->
-                <button
-                  @click="copyEmail"
-                  class="group px-10 py-5 bg-black/30 backdrop-blur-xl border-4 border-white
+                <button @click="copyEmail" class="group px-10 py-5 bg-black/30 backdrop-blur-xl border-4 border-white
                     rounded-2xl font-black text-lg tracking-wide text-white
                     hover:bg-black/50 transform hover:scale-105 transition-all duration-300 will-change-transform
                     flex items-center justify-center gap-4
                     focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50"
-                  aria-label="Copy email address"
-                >
+                  :aria-label="t.contact.ctaEmail">
                   <svg xmlns="http://www.w3.org/2000/svg"
-                    class="w-6 h-6 text-white group-hover:scale-110 transition-transform will-change-transform" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    class="w-6 h-6 text-white group-hover:scale-110 transition-transform will-change-transform"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <rect x="3" y="5" width="18" height="14" rx="2" />
                     <path d="M3 7l9 6 9-6" />
                   </svg>
-                  <span>COPY EMAIL</span>
+                  <span>{{ t.contact.ctaEmail }}</span>
                 </button>
               </div>
             </div>
@@ -748,14 +952,9 @@ const copyToClipboard = async (text) => {
     <!-- Footer -->
     <footer class="relative py-16 px-6 lg:px-8 border-t border-white/10" role="contentinfo">
       <div class="max-w-7xl mx-auto text-center relative z-10">
-        <!-- Brand -->
         <div class="inline-flex items-center gap-4 mb-6">
-          <img 
-            src="/image/ss-pink.png" 
-            alt="Shounen Shoujo Logo"
-            loading="lazy"
-            class="w-20 transition-all duration-500 hover:opacity-80 hover:scale-105 will-change-transform" 
-          />
+          <img src="/image/ss-pink.png" alt="Shounen Shoujo Logo" loading="lazy"
+            class="w-20 transition-all duration-500 hover:opacity-80 hover:scale-105 will-change-transform" />
           <div class="text-left">
             <div class="text-2xl font-black bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] bg-clip-text text-transparent">
               SHOUNEN SHOUJO
@@ -766,55 +965,40 @@ const copyToClipboard = async (text) => {
           </div>
         </div>
 
-        <!-- Tagline -->
         <p class="text-white/60 mb-10 text-lg font-semibold">
-          Bringing J-Pop Culture to Life
+          {{ t.footer.tagline }}
         </p>
 
-        <!-- Social Media -->
         <div class="flex justify-center gap-6 mb-10" role="list" aria-label="Social media links">
-          <!-- Instagram -->
-          <a 
-            href="https://instagram.com/shounenshoujo_" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            class="group w-14 h-14 bg-white/5 backdrop-blur-xl hover:bg-white/10 rounded-full
+          <a href="https://instagram.com/shounenshoujo_" target="_blank" rel="noopener noreferrer" class="group w-14 h-14 bg-white/5 backdrop-blur-xl hover:bg-white/10 rounded-full
               flex items-center justify-center transition-all duration-300
               hover:scale-110 border border-white/20 will-change-transform
               focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50"
-            aria-label="Follow us on Instagram"
-          >
+            aria-label="Follow us on Instagram">
             <svg xmlns="http://www.w3.org/2000/svg"
-              class="w-6 h-6 text-white group-hover:scale-125 transition-transform will-change-transform" viewBox="0 0 24 24"
-              fill="currentColor" aria-hidden="true">
+              class="w-6 h-6 text-white group-hover:scale-125 transition-transform will-change-transform"
+              viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path
                 d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A5.5 5.5 0 1 0 12 18a5.5 5.5 0 0 0 0-11zm0 2A3.5 3.5 0 1 1 8.5 12 3.5 3.5 0 0 1 12 9.5zm4.8-2.9a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6z" />
             </svg>
           </a>
 
-          <!-- YouTube -->
-          <a 
-            href="https://www.youtube.com/@ShounenShoujou" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            class="group w-14 h-14 bg-white/5 backdrop-blur-xl hover:bg-white/10 rounded-full
+          <a href="https://www.youtube.com/@ShounenShoujou" target="_blank" rel="noopener noreferrer" class="group w-14 h-14 bg-white/5 backdrop-blur-xl hover:bg-white/10 rounded-full
               flex items-center justify-center transition-all duration-300
               hover:scale-110 border border-white/20 will-change-transform
               focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50"
-            aria-label="Subscribe to our YouTube channel"
-          >
+            aria-label="Subscribe to our YouTube channel">
             <svg xmlns="http://www.w3.org/2000/svg"
-              class="w-7 h-7 text-white group-hover:scale-125 transition-transform will-change-transform" viewBox="0 0 24 24"
-              fill="currentColor" aria-hidden="true">
+              class="w-7 h-7 text-white group-hover:scale-125 transition-transform will-change-transform"
+              viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path
                 d="M23.5 6.2a3 3 0 00-2.1-2.1C19.6 3.6 12 3.6 12 3.6s-7.6 0-9.4.5A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.8.5 9.4.5 9.4.5s7.6 0 9.4-.5a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.6 15.5v-7l6.4 3.5-6.4 3.5z" />
             </svg>
           </a>
         </div>
 
-        <!-- Copyright -->
         <div class="text-white/40 text-sm font-semibold">
-          © 2025 Shounen Shoujo. Made with 💖 by Akahara
+          {{ t.footer.copyright }}
         </div>
       </div>
     </footer>
@@ -822,7 +1006,6 @@ const copyToClipboard = async (text) => {
 </template>
 
 <style scoped>
-/* Scroll Animation */
 .scroll-animate {
   opacity: 0;
   transform: translateY(30px);
@@ -834,47 +1017,20 @@ const copyToClipboard = async (text) => {
   transform: translateY(0);
 }
 
-/* Video Cards Stagger Animation */
 .video-card {
   animation-fill-mode: both;
 }
 
-/* Ripple Effect for Buttons */
-.ripple-button {
-  position: relative;
-  overflow: hidden;
-}
-
-.ripple-button::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
-}
-
-.ripple-button:active::after {
-  width: 300px;
-  height: 300px;
-}
-
-/* Focus Visible Styles */
 :focus-visible {
   outline: none;
 }
 
-/* Smooth Scroll */
 html {
   scroll-behavior: smooth;
 }
 
-/* Reduce Motion */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -882,21 +1038,13 @@ html {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  
+
   .scroll-animate {
     opacity: 1;
     transform: none;
   }
 }
 
-/* Loading Animation */
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Card Tilt Effect on Hover (3D) */
 .video-card {
   perspective: 1000px;
 }
@@ -905,16 +1053,11 @@ html {
   transform: rotateY(2deg) rotateX(-2deg);
 }
 
-/* Performance Optimizations */
 .will-change-transform {
   will-change: transform;
 }
 
 .will-change-opacity {
   will-change: opacity;
-}
-
-.will-change-auto {
-  will-change: auto;
 }
 </style>
