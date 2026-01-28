@@ -629,15 +629,15 @@ const copyToClipboard = async (text) => {
       <div class="max-w-7xl mx-auto w-full relative z-10">
         <div class="text-center scroll-animate">
           <div
-            class="inline-flex items-center gap-3 px-6 py-3 mb-8 bg-white/5 backdrop-blur-xl rounded-full border border-white/20">
-            <span class="relative flex h-3 w-3">
+            class="inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 mb-6 sm:mb-8 bg-white/5 backdrop-blur-xl rounded-full border border-white/20">
+            <span class="relative flex h-2.5 w-2.5 sm:h-3 sm:w-3">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#fea3fe] opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-3 w-3 bg-[#fea3fe]"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 bg-[#fea3fe]"></span>
             </span>
-            <span class="text-sm font-bold tracking-wider text-white/90">{{ t.hero.badge }}</span>
+            <span class="text-xs sm:text-sm font-bold tracking-wider text-white/90">{{ t.hero.badge }}</span>
           </div>
 
-          <h1 class="text-6xl sm:text-7xl lg:text-8xl font-black mb-6 leading-none">
+          <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 sm:mb-6 leading-none">
             <span
               class="inline-block bg-gradient-to-r from-[#fea3fe] via-purple-400 to-[#61fdfe] bg-clip-text text-transparent drop-shadow-2xl animate-pulse will-change-opacity"
               style="text-shadow: 0 0 30px rgba(254, 163, 254, 0.3);">
@@ -651,23 +651,23 @@ const copyToClipboard = async (text) => {
             </span>
           </h1>
 
-          <p class="text-xl sm:text-2xl lg:text-3xl text-white/70 mb-4 font-bold tracking-wide">
+          <p class="text-sm sm:text-lg md:text-xl lg:text-2xl text-white/70 mb-3 sm:mb-4 font-bold tracking-wide px-4">
             {{ t.hero.subtitle }}
           </p>
 
-          <p class="text-lg sm:text-xl text-white/50 max-w-3xl mx-auto mb-12 leading-relaxed">
+          <p class="text-base sm:text-lg md:text-xl text-white/50 max-w-3xl mx-auto mb-8 sm:mb-12 leading-relaxed px-4">
             {{ t.hero.description }}
           </p>
 
-          <div class="flex flex-col sm:flex-row gap-5 justify-center items-center mb-16">
-            <a href="#activities" class="group relative px-10 py-5 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe]
-                rounded-2xl font-black text-lg tracking-wide overflow-hidden
+          <div class="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center items-stretch sm:items-center mb-12 sm:mb-16 px-4">
+            <a href="#activities" class="group relative px-6 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe]
+                rounded-xl sm:rounded-2xl font-black text-base sm:text-lg tracking-wide overflow-hidden
                 transform hover:scale-105 transition-all duration-300 will-change-transform
-                focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50"
+                focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50 text-center"
               :aria-label="t.hero.ctaCollection">
-              <span class="relative z-10 flex items-center gap-3">
+              <span class="relative z-10 flex items-center justify-center gap-2 sm:gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg"
-                  class="w-6 h-6 text-black group-hover:scale-110 transition-transform will-change-transform"
+                  class="w-5 h-5 sm:w-6 sm:h-6 text-black group-hover:scale-110 transition-transform will-change-transform"
                   viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M4 4h12a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" />
                   <path d="M16 10l6-4v12l-6-4z" />
@@ -678,11 +678,11 @@ const copyToClipboard = async (text) => {
                 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </a>
 
-            <a href="#contact" class="px-10 py-5 bg-white/5 backdrop-blur-xl border-2 border-white/20
-                rounded-2xl font-black text-lg tracking-wide text-white
+            <a href="#contact" class="px-6 sm:px-10 py-4 sm:py-5 bg-white/5 backdrop-blur-xl border-2 border-white/20
+                rounded-xl sm:rounded-2xl font-black text-base sm:text-lg tracking-wide text-white
                 hover:bg-white/10 hover:border-[#61fdfe]
                 transform hover:scale-105 transition-all duration-300 will-change-transform
-                focus:outline-none focus-visible:ring-4 focus-visible:ring-[#61fdfe]/50" :aria-label="t.hero.ctaBook">
+                focus:outline-none focus-visible:ring-4 focus-visible:ring-[#61fdfe]/50 text-center" :aria-label="t.hero.ctaBook">
               {{ t.hero.ctaBook }}
             </a>
           </div>
@@ -701,22 +701,22 @@ const copyToClipboard = async (text) => {
     </section>
 
     <!-- About Section -->
-    <section id="about" class="relative py-32 px-6 lg:px-8">
+    <section id="about" class="relative py-20 sm:py-32 px-4 sm:px-6 lg:px-8">
       <div class="max-w-7xl mx-auto relative z-10">
-        <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="grid lg:grid-cols-2 gap-12 sm:gap-16 items-center">
           <div class="scroll-animate">
             <div
-              class="inline-block px-4 py-2 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] rounded-full text-xs font-black tracking-widest mb-6">
+              class="inline-block px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] rounded-full text-xs font-black tracking-widest mb-4 sm:mb-6">
               {{ t.about.badge }}
             </div>
-            <h2 class="text-5xl lg:text-6xl font-black mb-8 leading-tight">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-6 sm:mb-8 leading-tight">
               {{ t.about.title }}
               <span class="block bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] bg-clip-text text-transparent">
                 {{ t.about.titleHighlight }}
               </span>
             </h2>
 
-            <div class="space-y-6 text-lg text-white/70 leading-relaxed">
+            <div class="space-y-4 sm:space-y-6 text-base sm:text-lg text-white/70 leading-relaxed">
               <p>
                 <strong class="text-white">Shounen Shoujo</strong> {{ t.about.p1 }}
                 <strong class="text-[#61fdfe]">Anikura</strong> {{ t.about.p1Highlight }}
@@ -738,17 +738,17 @@ const copyToClipboard = async (text) => {
 
           <div class="relative scroll-animate">
             <div
-              class="absolute inset-0 bg-gradient-to-br from-[#fea3fe] to-[#61fdfe] rounded-3xl blur-3xl opacity-30 will-change-opacity">
+              class="absolute inset-0 bg-gradient-to-br from-[#fea3fe] to-[#61fdfe] rounded-2xl sm:rounded-3xl blur-3xl opacity-30 will-change-opacity">
             </div>
 
-            <div class="relative bg-white/5 backdrop-blur-xl rounded-3xl border border-white/20 p-12
+            <div class="relative bg-white/5 backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-white/20 p-6 sm:p-8 md:p-12
               transform hover:scale-105 transition-all duration-500 will-change-transform">
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div class="grid grid-cols-2 gap-6 sm:gap-8">
                 <div
                   class="text-center transform hover:scale-110 transition-transform duration-300 will-change-transform">
-                  <div class="mb-4 flex justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-[#61fdfe]" viewBox="0 0 24 24"
+                  <div class="mb-3 sm:mb-4 flex justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 text-[#61fdfe]" viewBox="0 0 24 24"
                       fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
                       <circle cx="8" cy="5" r="2" />
                       <circle cx="16" cy="5" r="2" />
@@ -757,18 +757,18 @@ const copyToClipboard = async (text) => {
                     </svg>
                   </div>
                   <div
-                    class="text-3xl font-black bg-gradient-to-r from-[#61fdfe] to-blue-400 bg-clip-text text-transparent mb-2">
+                    class="text-2xl sm:text-3xl font-black bg-gradient-to-r from-[#61fdfe] to-blue-400 bg-clip-text text-transparent mb-1 sm:mb-2">
                     RPD
                   </div>
-                  <div class="text-sm text-white/60 font-semibold">
+                  <div class="text-xs sm:text-sm text-white/60 font-semibold">
                     {{ t.about.rpd }}
                   </div>
                 </div>
 
                 <div
                   class="text-center transform hover:scale-110 transition-transform duration-300 will-change-transform">
-                  <div class="mb-4 flex justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-[#fea3fe]" viewBox="0 0 24 24"
+                  <div class="mb-3 sm:mb-4 flex justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 text-[#fea3fe]" viewBox="0 0 24 24"
                       fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
                       <rect x="9" y="2" width="6" height="12" rx="2" />
                       <path d="M5 10v2a7 7 0 0014 0v-2" />
@@ -776,18 +776,18 @@ const copyToClipboard = async (text) => {
                     </svg>
                   </div>
                   <div
-                    class="text-3xl font-black bg-gradient-to-r from-[#fea3fe] to-purple-400 bg-clip-text text-transparent mb-2">
+                    class="text-2xl sm:text-3xl font-black bg-gradient-to-r from-[#fea3fe] to-purple-400 bg-clip-text text-transparent mb-1 sm:mb-2">
                     Utattemita
                   </div>
-                  <div class="text-sm text-white/60 font-semibold">
+                  <div class="text-xs sm:text-sm text-white/60 font-semibold">
                     {{ t.about.utattemita }}
                   </div>
                 </div>
 
                 <div
                   class="text-center transform hover:scale-110 transition-transform duration-300 will-change-transform">
-                  <div class="mb-4 flex justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-purple-400" viewBox="0 0 24 24"
+                  <div class="mb-3 sm:mb-4 flex justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 text-purple-400" viewBox="0 0 24 24"
                       fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
                       <circle cx="9" cy="13" r="4" />
                       <path d="M13 13h7" />
@@ -795,28 +795,28 @@ const copyToClipboard = async (text) => {
                     </svg>
                   </div>
                   <div
-                    class="text-3xl font-black bg-gradient-to-r from-purple-400 to-[#fea3fe] bg-clip-text text-transparent mb-2">
+                    class="text-2xl sm:text-3xl font-black bg-gradient-to-r from-purple-400 to-[#fea3fe] bg-clip-text text-transparent mb-1 sm:mb-2">
                     Anikura
                   </div>
-                  <div class="text-sm text-white/60 font-semibold">
+                  <div class="text-xs sm:text-sm text-white/60 font-semibold">
                     {{ t.about.anikura }}
                   </div>
                 </div>
 
                 <div
                   class="text-center transform hover:scale-110 transition-transform duration-300 will-change-transform">
-                  <div class="mb-4 flex justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-pink-400" viewBox="0 0 24 24"
+                  <div class="mb-3 sm:mb-4 flex justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 text-pink-400" viewBox="0 0 24 24"
                       fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
                       <rect x="3" y="5" width="18" height="14" rx="2" />
                       <circle cx="12" cy="12" r="3" />
                     </svg>
                   </div>
                   <div
-                    class="text-3xl font-black bg-gradient-to-r from-pink-400 to-[#61fdfe] bg-clip-text text-transparent mb-2">
+                    class="text-2xl sm:text-3xl font-black bg-gradient-to-r from-pink-400 to-[#61fdfe] bg-clip-text text-transparent mb-1 sm:mb-2">
                     Media
                   </div>
-                  <div class="text-sm text-white/60 font-semibold">
+                  <div class="text-xs sm:text-sm text-white/60 font-semibold">
                     {{ t.about.media }}
                   </div>
                 </div>
@@ -829,49 +829,49 @@ const copyToClipboard = async (text) => {
 
     <!-- Activities Section -->
     <section id="activities"
-      class="relative py-32 px-6 lg:px-8 bg-gradient-to-b from-transparent via-[#fea3fe]/5 to-transparent">
+      class="relative py-20 sm:py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent via-[#fea3fe]/5 to-transparent">
       <div class="max-w-7xl mx-auto relative z-10">
-        <div class="text-center mb-20 scroll-animate">
+        <div class="text-center mb-12 sm:mb-20 scroll-animate">
           <div
-            class="inline-block px-4 py-2 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] rounded-full text-xs font-black tracking-widest mb-6">
+            class="inline-block px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] rounded-full text-xs font-black tracking-widest mb-4 sm:mb-6">
             {{ t.activities.badge }}
           </div>
-          <h2 class="text-5xl lg:text-6xl font-black mb-6">
+          <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 sm:mb-6">
             {{ t.activities.title }}
           </h2>
-          <p class="text-xl text-white/60 max-w-2xl mx-auto">
+          <p class="text-base sm:text-lg md:text-xl text-white/60 max-w-2xl mx-auto px-4">
             {{ t.activities.description }}
           </p>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           <div v-for="(video, idx) in videos" :key="idx" class="group relative scroll-animate video-card"
             :style="{ animationDelay: `${idx * 100}ms` }">
             <div
-              class="absolute -inset-1 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] rounded-3xl blur-xl opacity-0 group-hover:opacity-75 transition-all duration-500 will-change-opacity">
+              class="absolute -inset-1 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] rounded-2xl sm:rounded-3xl blur-xl opacity-0 group-hover:opacity-75 transition-all duration-500 will-change-opacity">
             </div>
             <div
-              class="relative block bg-white/5 backdrop-blur-xl rounded-3xl overflow-hidden border border-white/20 transform group-hover:scale-105 transition-all duration-500 will-change-transform">
+              class="relative block bg-white/5 backdrop-blur-xl rounded-2xl sm:rounded-3xl overflow-hidden border border-white/20 transform group-hover:scale-105 transition-all duration-500 will-change-transform">
               <a :href="video.link" target="_blank" rel="noopener noreferrer"
                 :aria-label="`Watch ${video.title} on YouTube`"
-                class="block focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50 rounded-3xl">
+                class="block focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50 rounded-2xl sm:rounded-3xl">
                 <div class="aspect-video relative overflow-hidden">
                   <img :src="video.thumbnail" :alt="`Thumbnail for ${video.title}`" loading="lazy"
                     class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 will-change-transform" />
                   <div
                     class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div
-                      class="w-20 h-20 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center border-4 border-white/50 transform group-hover:scale-110 transition-transform duration-300">
-                      <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      class="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center border-4 border-white/50 transform group-hover:scale-110 transition-transform duration-300">
+                      <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M8 5v14l11-7z" />
                       </svg>
                     </div>
                   </div>
                 </div>
               </a>
-              <div class="p-6">
+              <div class="p-4 sm:p-6">
                 <h3
-                  class="text-xl font-black text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-[#fea3fe] group-hover:to-[#61fdfe] group-hover:bg-clip-text transition-all duration-300 mb-3">
+                  class="text-lg sm:text-xl font-black text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-[#fea3fe] group-hover:to-[#61fdfe] group-hover:bg-clip-text transition-all duration-300 mb-2 sm:mb-3">
                   {{ video.title }}
                 </h3>
 
@@ -891,12 +891,12 @@ const copyToClipboard = async (text) => {
           </div>
         </div>
 
-        <div class="text-center mt-16 scroll-animate">
+        <div class="text-center mt-12 sm:mt-16 scroll-animate px-4">
           <a href="https://www.youtube.com/@ShounenShoujou" target="_blank" rel="noopener noreferrer"
-            class="inline-flex items-center gap-3 px-8 py-4 bg-white/5 backdrop-blur-xl border-2 border-white/20 rounded-2xl font-black tracking-wide hover:bg-white/10 hover:border-[#fea3fe] transform hover:scale-105 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50"
+            class="inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-white/5 backdrop-blur-xl border-2 border-white/20 rounded-xl sm:rounded-2xl font-black text-sm sm:text-base tracking-wide hover:bg-white/10 hover:border-[#fea3fe] transform hover:scale-105 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50"
             :aria-label="t.activities.viewAll">
             <span>{{ t.activities.viewAll }}</span>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
             </svg>
           </a>
@@ -905,20 +905,20 @@ const copyToClipboard = async (text) => {
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="relative py-32 px-6 lg:px-8">
+    <section id="contact" class="relative py-20 sm:py-32 px-4 sm:px-6 lg:px-8">
       <div class="max-w-5xl mx-auto relative z-10 scroll-animate">
         <div class="relative">
           <div
-            class="absolute inset-0 bg-gradient-to-r from-[#fea3fe] via-purple-500 to-[#61fdfe] rounded-[3rem] blur-3xl opacity-50">
+            class="absolute inset-0 bg-gradient-to-r from-[#fea3fe] via-purple-500 to-[#61fdfe] rounded-[2rem] sm:rounded-[3rem] blur-3xl opacity-50">
           </div>
           <div
-            class="relative bg-gradient-to-br from-[#fea3fe] via-purple-500 to-[#61fdfe] rounded-[3rem] p-16 text-center overflow-hidden border-4 border-white/20">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-0 left-0 w-64 h-64 bg-black opacity-20 rounded-full blur-3xl"></div>
+            class="relative bg-gradient-to-br from-[#fea3fe] via-purple-500 to-[#61fdfe] rounded-[2rem] sm:rounded-[3rem] p-8 sm:p-12 md:p-16 text-center overflow-hidden border-2 sm:border-4 border-white/20">
+            <div class="absolute top-0 right-0 w-48 h-48 sm:w-64 sm:h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-48 h-48 sm:w-64 sm:h-64 bg-black opacity-20 rounded-full blur-3xl"></div>
 
             <div class="relative z-10">
-              <div class="mb-6 flex justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 text-white drop-shadow-lg" viewBox="0 0 24 24"
+              <div class="mb-4 sm:mb-6 flex justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 sm:w-20 sm:h-20 text-white drop-shadow-lg" viewBox="0 0 24 24"
                   fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
                   <path d="M4 12l4-4 4 4 4-4 4 4" />
                   <path d="M2 10l6-6" />
@@ -926,23 +926,23 @@ const copyToClipboard = async (text) => {
                 </svg>
               </div>
 
-              <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-6 drop-shadow-2xl">
+              <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4 sm:mb-6 drop-shadow-2xl">
                 {{ t.contact.title }}
               </h2>
 
-              <p class="text-xl sm:text-2xl text-white/90 mb-12 max-w-2xl mx-auto leading-relaxed">
+              <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed px-4">
                 {{ t.contact.description }}
                 <span class="font-semibold">{{ t.contact.descriptionHighlight }}</span>
               </p>
 
-              <div class="flex flex-col sm:flex-row gap-6 justify-center">
-                <a href="https://instagram.com/shounenshoujo_" target="_blank" rel="noopener noreferrer" class="group px-10 py-5 bg-white text-black rounded-2xl font-black text-lg tracking-wide
+              <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center px-4">
+                <a href="https://instagram.com/shounenshoujo_" target="_blank" rel="noopener noreferrer" class="group px-6 sm:px-10 py-4 sm:py-5 bg-white text-black rounded-xl sm:rounded-2xl font-black text-base sm:text-lg tracking-wide
                     transform hover:scale-105 transition-all duration-300 will-change-transform
-                    flex items-center justify-center gap-4
+                    flex items-center justify-center gap-3 sm:gap-4
                     focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50"
                   :aria-label="t.contact.ctaInstagram">
                   <svg xmlns="http://www.w3.org/2000/svg"
-                    class="w-6 h-6 text-black group-hover:scale-110 transition-transform will-change-transform"
+                    class="w-5 h-5 sm:w-6 sm:h-6 text-black group-hover:scale-110 transition-transform will-change-transform"
                     viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path
                       d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A5.5 5.5 0 1 0 12 18a5.5 5.5 0 0 0 0-11zm0 2A3.5 3.5 0 1 1 8.5 12 3.5 3.5 0 0 1 12 9.5zm4.8-2.9a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6z" />
@@ -950,14 +950,14 @@ const copyToClipboard = async (text) => {
                   <span>{{ t.contact.ctaInstagram }}</span>
                 </a>
 
-                <button @click="copyEmail" class="group px-10 py-5 bg-black/30 backdrop-blur-xl border-4 border-white
-                    rounded-2xl font-black text-lg tracking-wide text-white
+                <button @click="copyEmail" class="group px-6 sm:px-10 py-4 sm:py-5 bg-black/30 backdrop-blur-xl border-2 sm:border-4 border-white
+                    rounded-xl sm:rounded-2xl font-black text-base sm:text-lg tracking-wide text-white
                     hover:bg-black/50 transform hover:scale-105 transition-all duration-300 will-change-transform
-                    flex items-center justify-center gap-4
+                    flex items-center justify-center gap-3 sm:gap-4
                     focus:outline-none focus-visible:ring-4 focus-visible:ring-white/50"
                   :aria-label="t.contact.ctaEmail">
                   <svg xmlns="http://www.w3.org/2000/svg"
-                    class="w-6 h-6 text-white group-hover:scale-110 transition-transform will-change-transform"
+                    class="w-5 h-5 sm:w-6 sm:h-6 text-white group-hover:scale-110 transition-transform will-change-transform"
                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <rect x="3" y="5" width="18" height="14" rx="2" />
                     <path d="M3 7l9 6 9-6" />
@@ -972,13 +972,13 @@ const copyToClipboard = async (text) => {
     </section>
 
     <!-- Footer -->
-    <footer class="relative py-16 px-6 lg:px-8 border-t border-white/10" role="contentinfo">
+    <footer class="relative py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t border-white/10" role="contentinfo">
       <div class="max-w-7xl mx-auto text-center relative z-10">
-        <div class="inline-flex items-center gap-4 mb-6">
+        <div class="inline-flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
           <img src="/image/ss-pink.png" alt="Shounen Shoujo Logo" loading="lazy"
-            class="w-20 transition-all duration-500 hover:opacity-80 hover:scale-105 will-change-transform" />
+            class="w-16 sm:w-20 transition-all duration-500 hover:opacity-80 hover:scale-105 will-change-transform" />
           <div class="text-left">
-            <div class="text-2xl font-black bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] bg-clip-text text-transparent">
+            <div class="text-xl sm:text-2xl font-black bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] bg-clip-text text-transparent">
               SHOUNEN SHOUJO
             </div>
             <div class="text-xs font-bold text-white/50 tracking-widest">
@@ -987,31 +987,31 @@ const copyToClipboard = async (text) => {
           </div>
         </div>
 
-        <p class="text-white/60 mb-10 text-lg font-semibold">
+        <p class="text-white/60 mb-8 sm:mb-10 text-base sm:text-lg font-semibold px-4">
           {{ t.footer.tagline }}
         </p>
 
-        <div class="flex justify-center gap-6 mb-10" role="list" aria-label="Social media links">
-          <a href="https://instagram.com/shounenshoujo_" target="_blank" rel="noopener noreferrer" class="group w-14 h-14 bg-white/5 backdrop-blur-xl hover:bg-white/10 rounded-full
+        <div class="flex justify-center gap-4 sm:gap-6 mb-8 sm:mb-10" role="list" aria-label="Social media links">
+          <a href="https://instagram.com/shounenshoujo_" target="_blank" rel="noopener noreferrer" class="group w-12 h-12 sm:w-14 sm:h-14 bg-white/5 backdrop-blur-xl hover:bg-white/10 rounded-full
               flex items-center justify-center transition-all duration-300
               hover:scale-110 border border-white/20 will-change-transform
               focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50"
             aria-label="Follow us on Instagram">
             <svg xmlns="http://www.w3.org/2000/svg"
-              class="w-6 h-6 text-white group-hover:scale-125 transition-transform will-change-transform"
+              class="w-5 h-5 sm:w-6 sm:h-6 text-white group-hover:scale-125 transition-transform will-change-transform"
               viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path
                 d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A5.5 5.5 0 1 0 12 18a5.5 5.5 0 0 0 0-11zm0 2A3.5 3.5 0 1 1 8.5 12 3.5 3.5 0 0 1 12 9.5zm4.8-2.9a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6z" />
             </svg>
           </a>
 
-          <a href="https://www.youtube.com/@ShounenShoujou" target="_blank" rel="noopener noreferrer" class="group w-14 h-14 bg-white/5 backdrop-blur-xl hover:bg-white/10 rounded-full
+          <a href="https://www.youtube.com/@ShounenShoujou" target="_blank" rel="noopener noreferrer" class="group w-12 h-12 sm:w-14 sm:h-14 bg-white/5 backdrop-blur-xl hover:bg-white/10 rounded-full
               flex items-center justify-center transition-all duration-300
               hover:scale-110 border border-white/20 will-change-transform
               focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50"
             aria-label="Subscribe to our YouTube channel">
             <svg xmlns="http://www.w3.org/2000/svg"
-              class="w-7 h-7 text-white group-hover:scale-125 transition-transform will-change-transform"
+              class="w-6 h-6 sm:w-7 sm:h-7 text-white group-hover:scale-125 transition-transform will-change-transform"
               viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path
                 d="M23.5 6.2a3 3 0 00-2.1-2.1C19.6 3.6 12 3.6 12 3.6s-7.6 0-9.4.5A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.8.5 9.4.5 9.4.5s7.6 0 9.4-.5a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.6 15.5v-7l6.4 3.5-6.4 3.5z" />
@@ -1019,7 +1019,7 @@ const copyToClipboard = async (text) => {
           </a>
         </div>
 
-        <div class="text-white/40 text-sm font-semibold">
+        <div class="text-white/40 text-xs sm:text-sm font-semibold px-4">
           {{ t.footer.copyright }}
         </div>
       </div>
