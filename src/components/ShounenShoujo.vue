@@ -402,7 +402,7 @@ const videos = [
     link: "https://youtu.be/4JzGPu56rQo?si=-j0TfUT7r65LL_E2"
   },
   {
-    title: "UTAIMASHO KARAOKE VOL. 1",
+    title: "UTAISHO KARAOKE VOL. 1",
     thumbnail: "/image/thum4.png",
     link: "https://youtu.be/Kh9qVLhWEmg?si=FgPafIoE-D1b_RKG"
   }
