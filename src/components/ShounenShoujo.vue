@@ -532,7 +532,7 @@ const copyToClipboard = async (text) => {
                 class="lang-button flex items-center justify-center gap-3 px-5 py-3 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-[#fea3fe]/50 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe]"
                 :aria-label="`Current language: ${languages.find(l => l.code === currentLang).name}`">
 
-                <span class="text-base font-bold leading-none tracking-tight">
+                <span class="text-base font-bold leading-none tracking-tight pb-1">
                   {{languages.find(l => l.code === currentLang).flag}}
                 </span>
 
@@ -554,7 +554,7 @@ const copyToClipboard = async (text) => {
                     @click.stop="setLanguage(lang.code); isLangMenuOpen = false"
                     class="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/10 transition-all text-left group"
                     :class="{ 'bg-gradient-to-r from-[#fea3fe]/10 to-[#61fdfe]/10 border-l-2 border-[#fea3fe]': currentLang === lang.code }">
-                    <span class="text-xl group-hover:scale-110 transition-transform">{{ lang.flag }}</span>
+                    <span class="text-xl group-hover:scale-110 transition-transform pb-1">{{ lang.flag }}</span>
                     <span class="font-bold text-sm flex-1">{{ lang.name }}</span>
                     <svg v-if="currentLang === lang.code" class="w-5 h-5 text-[#fea3fe]" fill="currentColor"
                       viewBox="0 0 20 20">
@@ -601,7 +601,7 @@ const copyToClipboard = async (text) => {
                   @click.stop="setLanguage(lang.code); isMenuOpen = false"
                   class="w-full flex items-center gap-4 px-6 py-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-[#fea3fe]/50 transition-all group"
                   :class="{ 'bg-gradient-to-r from-[#fea3fe]/10 to-[#61fdfe]/10 border-[#fea3fe] ring-1 ring-[#fea3fe]/30': currentLang === lang.code }">
-                  <span class="text-2xl group-hover:scale-110 transition-transform">{{ lang.flag }}</span>
+                  <span class="text-2xl group-hover:scale-110 transition-transform pb-1.5">{{ lang.flag }}</span>
                   <span class="font-bold text-base flex-1 text-left">{{ lang.name }}</span>
                   <svg v-if="currentLang === lang.code" class="w-5 h-5 text-[#fea3fe]" fill="currentColor"
                     viewBox="0 0 20 20">
