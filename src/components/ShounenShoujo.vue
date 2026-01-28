@@ -5,6 +5,7 @@ const isMenuOpen = ref(false)
 const scrolled = ref(false)
 const scrollProgress = ref(0)
 const isLoading = ref(true)
+const isMenuJustOpened = ref(false) // Flag untuk mencegah close immediate
 
 // ============================================
 // 🌍 MULTI-LANGUAGE / i18n SYSTEM
@@ -246,6 +247,11 @@ const handleScroll = () => {
 }
 
 const closeMenuOnOutsideClick = (event) => {
+  // Skip jika menu baru saja dibuka
+  if (isMenuJustOpened.value) {
+    return
+  }
+
   const mobileMenu = document.querySelector('.mobile-menu')
   const menuButton = document.querySelector('.menu-button')
   const langMenu = document.querySelector('.lang-menu')
@@ -279,6 +285,20 @@ const handleEscapeKey = (event) => {
   if (event.key === 'Escape') {
     if (isMenuOpen.value) isMenuOpen.value = false
     if (isLangMenuOpen.value) isLangMenuOpen.value = false
+  }
+}
+
+// Function untuk toggle menu dengan delay protection
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value
+  
+  // Set flag bahwa menu baru dibuka
+  if (isMenuOpen.value) {
+    isMenuJustOpened.value = true
+    // Reset flag setelah 100ms
+    setTimeout(() => {
+      isMenuJustOpened.value = false
+    }, 100)
   }
 }
 
@@ -335,7 +355,9 @@ onMounted(() => {
   }, 500)
 
   window.addEventListener('scroll', handleScroll)
-  document.addEventListener('click', closeMenuOnOutsideClick)
+  
+  // Gunakan capturing phase untuk document click listener
+  document.addEventListener('click', closeMenuOnOutsideClick, true)
   document.addEventListener('keydown', handleEscapeKey)
 
   setTimeout(() => {
@@ -359,7 +381,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
-  document.removeEventListener('click', closeMenuOnOutsideClick)
+  document.removeEventListener('click', closeMenuOnOutsideClick, true)
   document.removeEventListener('keydown', handleEscapeKey)
 })
 
@@ -546,10 +568,10 @@ const copyToClipboard = async (text) => {
             </div>
           </div>
 
-          <!-- Mobile Menu Button -->
-          <button @click="isMenuOpen = !isMenuOpen"
+          <!-- Mobile Menu Button - GUNAKAN toggleMenu() -->
+          <button @click="toggleMenu"
             class="menu-button md:hidden p-3 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe]"
-            :aria-label="isMenuOpen ? 'Close menu' : 'Open menu'" aria-expanded="isMenuOpen">
+            :aria-label="isMenuOpen ? 'Close menu' : 'Open menu'" :aria-expanded="isMenuOpen">
             <svg v-if="!isMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
               aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
