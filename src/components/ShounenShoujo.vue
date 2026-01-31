@@ -892,7 +892,7 @@ const copyToClipboard = async (text) => {
         </div>
 
         <div class="text-center mt-12 sm:mt-16 scroll-animate px-4">
-          <a href="https://www.youtube.com/@shounenshoujou" target="_blank" rel="noopener noreferrer"
+          <a href="https://www.youtube.com/@shounen_shoujo" target="_blank" rel="noopener noreferrer"
             class="inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-white/5 backdrop-blur-xl border-2 border-white/20 rounded-xl sm:rounded-2xl font-black text-sm sm:text-base tracking-wide hover:bg-white/10 hover:border-[#fea3fe] transform hover:scale-105 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50"
             :aria-label="t.activities.viewAll">
             <span>{{ t.activities.viewAll }}</span>
@@ -1005,7 +1005,7 @@ const copyToClipboard = async (text) => {
             </svg>
           </a>
 
-          <a href="https://www.youtube.com/@shounenshoujou" target="_blank" rel="noopener noreferrer" class="group w-12 h-12 sm:w-14 sm:h-14 bg-white/5 backdrop-blur-xl hover:bg-white/10 rounded-full
+          <a href="https://www.youtube.com/@shounen_shoujo" target="_blank" rel="noopener noreferrer" class="group w-12 h-12 sm:w-14 sm:h-14 bg-white/5 backdrop-blur-xl hover:bg-white/10 rounded-full
               flex items-center justify-center transition-all duration-300
               hover:scale-110 border border-white/20 will-change-transform
               focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50"
