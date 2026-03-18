@@ -388,7 +388,7 @@ onUnmounted(() => {
 const videos = [
   {
     title: "ODORISHO RPD VOL. 1",
-    thumbnail: "/image/thum3.png",
+    thumbnail: "/image/thum1.png",
     link: "https://youtu.be/7DjSxkNy-ho?si=G3-6JDsmZY7MwQwG"
   },
   {
@@ -397,8 +397,8 @@ const videos = [
     link: "https://youtu.be/gEXuPEbk85I?si=vURyUFI_WC-j8iRD"
   },
   {
-    title: "ODORISHO RPD VOL. 3",
-    thumbnail: "/image/thum1.png",
+    title: "ODORISHO RPD VOL. 3", 
+    thumbnail: "/image/thum3.png",
     link: "https://youtu.be/4JzGPu56rQo?si=-j0TfUT7r65LL_E2"
   },
   {
