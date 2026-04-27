@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://shounenshoujo.netlify.app/sitemap.xml
