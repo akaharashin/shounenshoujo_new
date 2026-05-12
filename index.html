@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="HpU_hmqcxeyb73kXP4d1A2R8wLlYs2jhHm81RR11yHE" />
 
-    <!-- ✅ SEO Core -->
     <title>Shounen Shoujo - Komunitas J-Pop & Anikura RPD Indonesia</title>
     <meta name="description" content="Shounen Shoujo adalah komunitas J-Pop & Anikura yang aktif menghadirkan Random Play Dance (RPD), Odottemita, dan Utattemita di event Jejepangan Indonesia." />
     <meta name="keywords" content="Shounen Shoujo, Shounen Shoujo Community, Shounen Shoujo RPD, Shounen Shoujo Anikura, Random Play Dance Indonesia, J-Pop Community Indonesia, Anikura Indonesia" />
@@ -13,7 +12,6 @@
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://shounenshoujo.netlify.app/" />
 
-    <!-- ✅ Open Graph (WhatsApp, Facebook preview) -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://shounenshoujo.netlify.app/" />
     <meta property="og:title" content="Shounen Shoujo - Komunitas J-Pop & Anikura RPD Indonesia" />
@@ -22,13 +20,11 @@
     <meta property="og:locale" content="id_ID" />
     <meta property="og:site_name" content="Shounen Shoujo" />
 
-    <!-- ✅ Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Shounen Shoujo - Komunitas J-Pop & Anikura" />
     <meta name="twitter:description" content="Komunitas J-Pop aktif menghadirkan RPD & Anikura di berbagai event Jejepangan Indonesia." />
     <meta name="twitter:image" content="https://shounenshoujo.netlify.app/image/ss-pink.png" />
 
-    <!-- ✅ Structured Data (JSON-LD) — ini yang paling ngaruh ke Google -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -49,6 +45,15 @@
       }
     }
     </script>
+
+    <!-- ✅ Preload LCP image -->
+    <link rel="preload" as="image" href="/image/ss-pink.webp" fetchpriority="high" />
+
+    <!-- ✅ Critical CSS — cegah flash putih sebelum CSS utama load -->
+    <style>
+      body { margin: 0; background: #000; color: #fff; overflow-x: hidden; }
+      #app { min-height: 100vh; }
+    </style>
 
     <link rel="icon" type="image/png" href="/image/ss-pink.png" />
   </head>
