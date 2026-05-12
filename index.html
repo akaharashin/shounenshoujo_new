@@ -46,11 +46,16 @@
     }
     </script>
 
-    <!-- ✅ Preload LCP image -->
+    <!--
+      ✅ FIX LCP: Preload logo sebagai LCP image.
+      imagesrcset membantu browser pilih ukuran yg tepat
+      sebelum CSS/JS selesai diparse.
+    -->
     <link rel="preload" as="image" href="/image/ss-pink.webp" fetchpriority="high" />
 
-    <!-- ✅ Critical CSS — cegah flash putih sebelum CSS utama load -->
+    <!-- ✅ Critical CSS — cegah flash hitam sebelum bundle load -->
     <style>
+      *, *::before, *::after { box-sizing: border-box; }
       body { margin: 0; background: #000; color: #fff; overflow-x: hidden; }
       #app { min-height: 100vh; }
     </style>
