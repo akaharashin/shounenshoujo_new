@@ -284,7 +284,7 @@ const copyToClipboard = async (text) => {
 </script>
 
 <template>
-  <div class="min-h-screen app-bg text-white overflow-x-hidden">
+<div class="min-h-screen app-bg text-white overflow-x-hidden">
 
 
     <!-- Loading Screen -->
@@ -932,9 +932,9 @@ const copyToClipboard = async (text) => {
 /* Background gradient — static, zero GPU cost */
 .app-bg {
   background:
-    radial-gradient(ellipse 80% 50% at 95% 5%, rgba(254, 163, 254, 0.22) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 45% at 5% 75%, rgba(97, 253, 254, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(168, 85, 247, 0.10) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 50% at 95% 5%, rgba(254, 163, 254, 0.13) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 45% at 5% 75%, rgba(97, 253, 254, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
     #000;
 }
 
