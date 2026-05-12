@@ -1,2 +1,95 @@
 @import "tailwindcss";
 
+/* ===================================================
+   DARK VARIANT — berbasis atribut [data-theme]
+   Memungkinkan utility `dark:*` aktif saat <html data-theme="dark">
+=================================================== */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ===================================================
+   TOKEN SEMANTIK
+   :root = LIGHT (default). [data-theme="dark"] = override gelap.
+=================================================== */
+:root {
+  /* Permukaan & teks */
+  --bg: #ffffff;
+  --surface: #f4f4f5;
+  --surface-strong: #ffffff;
+  /* Panel melayang (nav-scrolled, dropdown, toast) — putih-frosted di light */
+  --elevate: rgba(255, 255, 255, 0.85);
+  --elevate-solid: rgba(255, 255, 255, 0.96);
+  --fg: #18181b;
+  --muted: #52525b;
+  --subtle: #71717a;
+  --border: rgba(0, 0, 0, 0.10);
+  --border-subtle: rgba(0, 0, 0, 0.06);
+
+  /* Brand — nilai sama di kedua mode */
+  --brand-pink: #fea3fe;
+  --brand-cyan: #61fdfe;
+  --brand-purple: #b87ef5;
+
+  /* Brand "ink" — varian pekat untuk teks/aksen brand di latar terang */
+  --pink-ink: #c026d3;
+  --cyan-ink: #0891b2;
+
+  /* Brand band (hero & footer) — selalu gelap di kedua mode */
+  --band-bg: #0a0a0a;
+  --band-fg: #ffffff;
+  --band-muted: rgba(255, 255, 255, 0.72);
+
+  /* Tekstur dekoratif latar */
+  --texture: rgba(0, 0, 0, 0.025);
+}
+
+[data-theme="dark"] {
+  --bg: #0a0a0a;
+  --surface: rgba(255, 255, 255, 0.05);
+  --surface-strong: rgba(255, 255, 255, 0.08);
+  /* Panel melayang — gelap-pekat kembali di dark */
+  --elevate: rgba(10, 10, 10, 0.82);
+  --elevate-solid: rgba(10, 10, 10, 0.94);
+  --fg: #ffffff;
+  --muted: rgba(255, 255, 255, 0.72);
+  --subtle: rgba(255, 255, 255, 0.55);
+  --border: rgba(255, 255, 255, 0.14);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+
+  /* Di mode gelap, ink brand kembali ke warna brand penuh */
+  --pink-ink: #fea3fe;
+  --cyan-ink: #61fdfe;
+
+  --texture: rgba(255, 255, 255, 0.03);
+}
+
+/* ===================================================
+   DAFTARKAN TOKEN KE UTILITIES TAILWIND
+   `inline` WAJIB: utility merujuk var(--x) langsung,
+   sehingga ikut flip saat data-theme berubah (runtime).
+=================================================== */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
+  --color-elevate: var(--elevate);
+  --color-elevate-solid: var(--elevate-solid);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-border-c: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  --color-pink-ink: var(--pink-ink);
+  --color-cyan-ink: var(--cyan-ink);
+  --color-band-bg: var(--band-bg);
+  --color-band-fg: var(--band-fg);
+  --color-band-muted: var(--band-muted);
+}
+
+/* ===================================================
+   BASE — transisi halus saat ganti tema
+=================================================== */
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

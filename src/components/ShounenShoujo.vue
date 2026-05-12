@@ -64,7 +64,8 @@ const translations = {
       ctaInstagram: 'INSTAGRAM', ctaEmail: 'SALIN EMAIL'
     },
     footer: { tagline: 'RPD, Anikura, dan vibes J-Pop — siap hadir di event kamu 🌸', copyright: `© 2025–${new Date().getFullYear()} Shounen Shoujo. Dibuat dengan 💖 oleh Akahara` },
-    toast: { emailCopied: 'Email berhasil disalin! 📋', linkCopied: 'Link berhasil disalin! 🔗' }
+    toast: { emailCopied: 'Email berhasil disalin! 📋', linkCopied: 'Link berhasil disalin! 🔗' },
+    theme: { toggle: 'Ganti tema' }
   },
   en: {
     nav: { home: 'Home', about: 'About', activities: 'Activities', contact: 'Contact' },
@@ -98,7 +99,8 @@ const translations = {
       ctaInstagram: 'INSTAGRAM', ctaEmail: 'COPY EMAIL'
     },
     footer: { tagline: 'Spreading J-Pop Love, One Event at a Time 🌸', copyright: `© 2025–${new Date().getFullYear()} Shounen Shoujo. Made with 💖 by Akahara` },
-    toast: { emailCopied: 'Email copied to clipboard! 📋', linkCopied: 'Link copied to clipboard! 🔗' }
+    toast: { emailCopied: 'Email copied to clipboard! 📋', linkCopied: 'Link copied to clipboard! 🔗' },
+    theme: { toggle: 'Toggle theme' }
   },
   ja: {
     nav: { home: 'ホーム', about: '私たちについて', activities: '活動', contact: 'お問い合わせ' },
@@ -132,7 +134,8 @@ const translations = {
       ctaInstagram: 'インスタグラム', ctaEmail: 'メールをコピー'
     },
     footer: { tagline: 'J-Popの愛を、一つひとつのイベントに 🌸', copyright: `© 2025–${new Date().getFullYear()} Shounen Shoujo. 💖で作られました by Akahara` },
-    toast: { emailCopied: 'メールがコピーされました！📋', linkCopied: 'リンクがコピーされました！🔗' }
+    toast: { emailCopied: 'メールがコピーされました！📋', linkCopied: 'リンクがコピーされました！🔗' },
+    theme: { toggle: 'テーマ切替' }
   }
 }
 
@@ -145,6 +148,32 @@ const languages = [
 ]
 
 const isLangMenuOpen = ref(false)
+
+// ============================================
+// 🎨 THEME (light/dark) — meniru pola i18n
+// Default LIGHT, ikut device, toggle manual tersimpan.
+// data-theme awal sudah diset skrip sinkron di index.html (anti-FOUC).
+// ============================================
+const theme = ref(document.documentElement.getAttribute('data-theme') || 'light')
+
+const applyTheme = (val) => {
+  theme.value = val
+  document.documentElement.setAttribute('data-theme', val)
+  localStorage.setItem('theme', val)
+}
+
+const toggleTheme = () => {
+  applyTheme(theme.value === 'dark' ? 'light' : 'dark')
+}
+
+// Ikuti preferensi device — HANYA kalau user belum pernah set manual
+const prefersDarkMedia = window.matchMedia('(prefers-color-scheme: dark)')
+const handleSchemeChange = (e) => {
+  if (localStorage.getItem('theme')) return
+  const val = e.matches ? 'dark' : 'light'
+  theme.value = val
+  document.documentElement.setAttribute('data-theme', val)
+}
 
 // ============================================
 // SCROLL & MENU LOGIC
@@ -234,6 +263,7 @@ onMounted(() => {
   window.addEventListener('scroll', handleScroll, { passive: true }) // ✅ passive listener
   document.addEventListener('click', closeMenuOnOutsideClick, true)
   document.addEventListener('keydown', handleEscapeKey)
+  prefersDarkMedia.addEventListener('change', handleSchemeChange)
   setTimeout(() => { setupIntersectionObserver() }, 100)
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -251,6 +281,7 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
   document.removeEventListener('click', closeMenuOnOutsideClick, true)
   document.removeEventListener('keydown', handleEscapeKey)
+  prefersDarkMedia.removeEventListener('change', handleSchemeChange)
 })
 
 const videos = [
@@ -284,7 +315,7 @@ const copyToClipboard = async (text) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-black text-white overflow-x-hidden">
+  <div class="min-h-screen bg-bg text-fg overflow-x-hidden">
 
     <!-- Loading Screen -->
     <!--
@@ -292,10 +323,10 @@ const copyToClipboard = async (text) => {
       Transition tetap ada kalau suatu saat dipakai lagi.
     -->
     <transition leave-active-class="transition-opacity duration-300" leave-to-class="opacity-0">
-      <div v-if="isLoading" class="fixed inset-0 bg-black z-[100] flex items-center justify-center" aria-hidden="true">
+      <div v-if="isLoading" class="fixed inset-0 bg-bg z-[100] flex items-center justify-center" aria-hidden="true">
         <div class="text-center">
           <div class="w-20 h-20 border-4 border-[#fea3fe] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p class="text-white/60 font-bold">Loading...</p>
+          <p class="text-subtle font-bold">Loading...</p>
         </div>
       </div>
     </transition>
@@ -310,13 +341,13 @@ const copyToClipboard = async (text) => {
         backdrop-blur pada elemen kecil tetap mahal di mobile.
       -->
       <div v-if="showToastFlag" role="status" aria-live="polite"
-        class="fixed top-24 left-1/2 -translate-x-1/2 z-[60] px-6 py-4 bg-black/90 border border-white/20 rounded-2xl shadow-2xl">
-        <p class="text-white font-bold">{{ toastMessage }}</p>
+        class="fixed top-24 left-1/2 -translate-x-1/2 z-[60] px-6 py-4 bg-elevate-solid border border-border-c rounded-2xl shadow-2xl">
+        <p class="text-fg font-bold">{{ toastMessage }}</p>
       </div>
     </transition>
 
     <!-- Scroll Progress Bar -->
-    <div class="fixed top-0 left-0 w-full h-1 bg-white/10 z-[60]" aria-hidden="true">
+    <div class="fixed top-0 left-0 w-full h-1 bg-border-c z-[60]" aria-hidden="true">
       <div class="h-full bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] transition-all duration-150"
         :style="{ width: `${scrollProgress}%` }"></div>
     </div>
@@ -324,7 +355,7 @@ const copyToClipboard = async (text) => {
     <!-- Background decorations — hidden on mobile (hemat render) -->
     <div class="fixed inset-0 opacity-5 pointer-events-none z-0 hidden md:block" aria-hidden="true">
       <div class="absolute inset-0"
-        style="background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.03) 35px, rgba(255,255,255,.03) 70px);">
+        style="background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, var(--texture) 35px, var(--texture) 70px);">
       </div>
     </div>
 
@@ -347,7 +378,7 @@ const copyToClipboard = async (text) => {
 
     <!-- Navigation -->
     <nav
-      :class="['fixed w-full z-50 transition-all duration-500', scrolled ? 'nav-scrolled' : 'bg-transparent']"
+      :class="['fixed w-full z-50 transition-all duration-500', scrolled ? 'nav-scrolled text-fg' : 'bg-transparent text-band-fg']"
       role="navigation" aria-label="Main navigation">
       <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <div class="flex justify-between items-center h-24">
@@ -370,11 +401,31 @@ const copyToClipboard = async (text) => {
           <!-- Desktop Menu -->
           <div class="hidden md:flex items-center gap-2">
             <a v-for="(item, key) in t.nav" :key="key" :href="`#${key}`"
-              class="relative px-6 py-3 font-bold text-sm tracking-wide text-white/80 hover:text-white transition-all duration-300 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe] rounded-xl">
+              class="relative px-6 py-3 font-bold text-sm tracking-wide transition-all duration-300 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe] rounded-xl"
+              :class="scrolled ? 'text-muted hover:text-fg' : 'text-band-muted hover:text-band-fg'">
               <span class="relative z-10">{{ item.toUpperCase() }}</span>
-              <div class="absolute inset-0 bg-white/5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div class="absolute inset-0 bg-surface rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] group-hover:w-full transition-all duration-300"></div>
             </a>
+
+            <!-- Theme Toggle Desktop -->
+            <button @click="toggleTheme"
+              class="theme-button glass-btn flex items-center justify-center w-12 h-12 ml-2 rounded-xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe]"
+              :aria-label="t.theme.toggle" :aria-pressed="theme === 'dark'">
+              <!-- Matahari: tampil saat dark (klik untuk ke light) -->
+              <svg v-if="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="4" />
+                <path stroke-linecap="round"
+                  d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+              </svg>
+              <!-- Bulan: tampil saat light (klik untuk ke dark) -->
+              <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            </button>
 
             <!-- Language Switcher Desktop -->
             <div class="relative ml-4">
@@ -400,16 +451,16 @@ const copyToClipboard = async (text) => {
                 leave-from-class="opacity-100 scale-100 translate-y-0"
                 leave-to-class="opacity-0 scale-95 -translate-y-2">
                 <div v-if="isLangMenuOpen"
-                  class="lang-menu absolute right-0 mt-3 w-48 bg-black/95 md:backdrop-blur-xl border border-white/20 rounded-xl overflow-hidden shadow-2xl"
+                  class="lang-menu absolute right-0 mt-3 w-48 bg-elevate text-fg md:backdrop-blur-xl border border-border-c rounded-xl overflow-hidden shadow-2xl"
                   role="menu">
                   <button v-for="lang in languages" :key="lang.code"
                     @click.stop="setLanguage(lang.code); isLangMenuOpen = false"
-                    class="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/10 transition-all text-left group"
+                    class="w-full flex items-center gap-3 px-4 py-3 hover:bg-surface transition-all text-left group"
                     :class="{ 'bg-[#fea3fe]/10 border-l-2 border-[#fea3fe]': currentLang === lang.code }"
                     role="menuitem">
                     <span class="text-xl group-hover:scale-110 transition-transform pb-1">{{ lang.flag }}</span>
                     <span class="font-bold text-sm flex-1">{{ lang.name }}</span>
-                    <svg v-if="currentLang === lang.code" class="w-5 h-5 text-[#fea3fe]" fill="currentColor"
+                    <svg v-if="currentLang === lang.code" class="w-5 h-5 text-pink-ink" fill="currentColor"
                       viewBox="0 0 20 20" aria-hidden="true">
                       <path fill-rule="evenodd"
                         d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -426,7 +477,7 @@ const copyToClipboard = async (text) => {
             ✅ FIX: Ganti backdrop-blur dengan solid bg yang agak opaque di mobile
           -->
           <button @click="toggleMenu"
-            class="menu-button md:hidden p-3 rounded-xl bg-white/10 border border-white/15 hover:bg-white/15 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe]"
+            class="menu-button glass-btn md:hidden p-3 rounded-xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe]"
             :aria-label="isMenuOpen ? 'Close menu' : 'Open menu'" :aria-expanded="isMenuOpen"
             aria-controls="mobile-menu">
             <svg v-if="!isMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -442,25 +493,44 @@ const copyToClipboard = async (text) => {
         <transition enter-active-class="transition duration-300 ease-out" enter-from-class="opacity-0 -translate-y-4"
           enter-to-class="opacity-100 translate-y-0" leave-active-class="transition duration-200 ease-in"
           leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 -translate-y-4">
-          <div v-if="isMenuOpen" id="mobile-menu" class="mobile-menu md:hidden pb-6 space-y-2">
+          <div v-if="isMenuOpen" id="mobile-menu" class="mobile-menu md:hidden pb-6 space-y-2 text-fg">
             <!--
               ✅ FIX: Hapus backdrop-blur dari mobile menu items
-              Ganti dengan solid bg/90 yang lebih opaque
+              Panel ini permukaan solid → pakai token surface + teks fg sendiri
             -->
             <a v-for="(item, key) in t.nav" :key="key" :href="`#${key}`" @click="isMenuOpen = false"
-              class="block px-6 py-4 rounded-xl bg-white/10 border border-white/15 font-bold text-sm tracking-wide hover:bg-white/15 hover:border-white/25 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe]">
+              class="block px-6 py-4 rounded-xl bg-surface border border-border-c font-bold text-sm tracking-wide hover:bg-surface-strong hover:border-border-c transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe]">
               {{ item.toUpperCase() }}
             </a>
-            <div class="pt-4 border-t border-white/10 mt-4">
-              <p class="px-6 py-2 text-xs text-white/50 font-black tracking-widest">SELECT LANGUAGE</p>
+
+            <!-- Theme Toggle Mobile -->
+            <button @click="toggleTheme"
+              class="w-full flex items-center justify-between px-6 py-4 rounded-xl bg-surface border border-border-c hover:bg-surface-strong transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe]"
+              :aria-label="t.theme.toggle" :aria-pressed="theme === 'dark'">
+              <span class="font-bold text-sm tracking-wide">{{ t.theme.toggle.toUpperCase() }}</span>
+              <svg v-if="theme === 'dark'" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="4" />
+                <path stroke-linecap="round"
+                  d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+              </svg>
+              <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            </button>
+
+            <div class="pt-4 border-t border-border-subtle mt-4">
+              <p class="px-6 py-2 text-xs text-subtle font-black tracking-widest">SELECT LANGUAGE</p>
               <div class="space-y-2">
                 <button v-for="lang in languages" :key="lang.code"
                   @click.stop="setLanguage(lang.code); isMenuOpen = false"
-                  class="w-full flex items-center gap-4 px-6 py-4 rounded-xl bg-white/10 border border-white/15 hover:bg-white/15 hover:border-[#fea3fe]/40 transition-all group"
+                  class="w-full flex items-center gap-4 px-6 py-4 rounded-xl bg-surface border border-border-c hover:bg-surface-strong hover:border-[#fea3fe]/40 transition-all group"
                   :class="{ 'bg-[#fea3fe]/15 border-[#fea3fe]/50 ring-1 ring-[#fea3fe]/20': currentLang === lang.code }">
                   <span class="text-2xl group-hover:scale-110 transition-transform pb-1.5">{{ lang.flag }}</span>
                   <span class="font-bold text-base flex-1 text-left">{{ lang.name }}</span>
-                  <svg v-if="currentLang === lang.code" class="w-5 h-5 text-[#fea3fe]" fill="currentColor"
+                  <svg v-if="currentLang === lang.code" class="w-5 h-5 text-pink-ink" fill="currentColor"
                     viewBox="0 0 20 20" aria-hidden="true">
                     <path fill-rule="evenodd"
                       d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -483,8 +553,8 @@ const copyToClipboard = async (text) => {
 
     <main>
 
-      <!-- Hero Section -->
-      <section id="home" class="relative min-h-screen flex items-center justify-center px-6 lg:px-8 pt-24">
+      <!-- Hero Section — brand band: GELAP di kedua mode (light & dark) -->
+      <section id="home" class="relative min-h-screen flex items-center justify-center px-6 lg:px-8 pt-24 bg-band-bg text-band-fg">
         <div class="max-w-7xl mx-auto w-full relative z-10">
           <div class="text-center scroll-animate">
 
@@ -548,7 +618,7 @@ const copyToClipboard = async (text) => {
           <div class="grid lg:grid-cols-2 gap-12 sm:gap-16 items-center">
             <div class="scroll-animate">
 
-              <div class="inline-flex items-center px-4 py-2 bg-white/10 border border-white/20 rounded-full text-xs font-black tracking-widest mb-4 sm:mb-6">
+              <div class="inline-flex items-center px-4 py-2 bg-surface border border-border-c rounded-full text-xs font-black tracking-widest mb-4 sm:mb-6">
                 <span class="bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] bg-clip-text text-transparent">{{ t.about.badge }}</span>
               </div>
 
@@ -558,14 +628,14 @@ const copyToClipboard = async (text) => {
                   {{ t.about.titleHighlight }}
                 </span>
               </h2>
-              <div class="space-y-4 sm:space-y-6 text-base sm:text-lg text-white/70 leading-relaxed">
+              <div class="space-y-4 sm:space-y-6 text-base sm:text-lg text-muted leading-relaxed">
                 <p>
-                  <strong class="text-white">Shounen Shoujo</strong> {{ t.about.p1 }}
-                  <strong class="text-[#61fdfe]">Anikura</strong> {{ t.about.p1Highlight }}
+                  <strong class="text-fg">Shounen Shoujo</strong> {{ t.about.p1 }}
+                  <strong class="text-cyan-ink">Anikura</strong> {{ t.about.p1Highlight }}
                   {{ t.about.p1Continue }}
                 </p>
-                <p>{{ t.about.p2 }} <strong class="text-[#fea3fe]">Random Play Dance Team</strong> {{ t.about.p2Highlight }}</p>
-                <p>{{ t.about.p3 }} <strong class="text-[#61fdfe]">{{ t.about.p3Highlight }}</strong> {{ t.about.p3Continue }}</p>
+                <p>{{ t.about.p2 }} <strong class="text-pink-ink">Random Play Dance Team</strong> {{ t.about.p2Highlight }}</p>
+                <p>{{ t.about.p3 }} <strong class="text-cyan-ink">{{ t.about.p3Highlight }}</strong> {{ t.about.p3Continue }}</p>
               </div>
             </div>
 
@@ -577,7 +647,7 @@ const copyToClipboard = async (text) => {
                 ✅ FIX: Hapus backdrop-blur dari about card di mobile
                 Ganti dengan bg solid yang lebih gelap
               -->
-              <div class="relative about-card rounded-2xl sm:rounded-3xl border border-white/15 p-6 sm:p-8 md:p-12 hover:scale-105 transition-transform duration-500">
+              <div class="relative about-card rounded-2xl sm:rounded-3xl border border-border-c p-6 sm:p-8 md:p-12 hover:scale-105 transition-transform duration-500">
                 <div class="grid grid-cols-2 gap-6 sm:gap-8">
 
                   <div class="text-center hover:scale-110 transition-transform duration-300">
@@ -588,7 +658,7 @@ const copyToClipboard = async (text) => {
                       </svg>
                     </div>
                     <div class="text-2xl sm:text-3xl font-black bg-gradient-to-r from-[#61fdfe] to-blue-400 bg-clip-text text-transparent mb-1 sm:mb-2">RPD</div>
-                    <div class="text-xs sm:text-sm text-white/60 font-semibold">{{ t.about.rpd }}</div>
+                    <div class="text-xs sm:text-sm text-subtle font-semibold">{{ t.about.rpd }}</div>
                   </div>
 
                   <div class="text-center hover:scale-110 transition-transform duration-300">
@@ -598,7 +668,7 @@ const copyToClipboard = async (text) => {
                       </svg>
                     </div>
                     <div class="text-2xl sm:text-3xl font-black bg-gradient-to-r from-[#fea3fe] to-[#d066d8] bg-clip-text text-transparent mb-1 sm:mb-2">Utattemita</div>
-                    <div class="text-xs sm:text-sm text-white/60 font-semibold">{{ t.about.utattemita }}</div>
+                    <div class="text-xs sm:text-sm text-subtle font-semibold">{{ t.about.utattemita }}</div>
                   </div>
 
                   <div class="text-center hover:scale-110 transition-transform duration-300">
@@ -608,7 +678,7 @@ const copyToClipboard = async (text) => {
                       </svg>
                     </div>
                     <div class="text-2xl sm:text-3xl font-black bg-gradient-to-r from-[#b87ef5] to-[#fea3fe] bg-clip-text text-transparent mb-1 sm:mb-2">Anikura</div>
-                    <div class="text-xs sm:text-sm text-white/60 font-semibold">{{ t.about.anikura }}</div>
+                    <div class="text-xs sm:text-sm text-subtle font-semibold">{{ t.about.anikura }}</div>
                   </div>
 
                   <div class="text-center hover:scale-110 transition-transform duration-300">
@@ -618,7 +688,7 @@ const copyToClipboard = async (text) => {
                       </svg>
                     </div>
                     <div class="text-2xl sm:text-3xl font-black bg-gradient-to-r from-[#61fdfe] to-[#fea3fe] bg-clip-text text-transparent mb-1 sm:mb-2">Media</div>
-                    <div class="text-xs sm:text-sm text-white/60 font-semibold">{{ t.about.media }}</div>
+                    <div class="text-xs sm:text-sm text-subtle font-semibold">{{ t.about.media }}</div>
                   </div>
 
                 </div>
@@ -633,12 +703,12 @@ const copyToClipboard = async (text) => {
         <div class="max-w-7xl mx-auto relative z-10">
           <div class="text-center mb-12 sm:mb-20 scroll-animate">
 
-            <div class="inline-flex items-center px-4 py-2 bg-white/10 border border-white/20 rounded-full text-xs font-black tracking-widest mb-4 sm:mb-6">
+            <div class="inline-flex items-center px-4 py-2 bg-surface border border-border-c rounded-full text-xs font-black tracking-widest mb-4 sm:mb-6">
               <span class="bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] bg-clip-text text-transparent">{{ t.activities.badge }}</span>
             </div>
 
             <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 sm:mb-6">{{ t.activities.title }}</h2>
-            <p class="text-base sm:text-lg md:text-xl text-white/60 max-w-2xl mx-auto px-4">{{ t.activities.description }}</p>
+            <p class="text-base sm:text-lg md:text-xl text-subtle max-w-2xl mx-auto px-4">{{ t.activities.description }}</p>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
@@ -651,7 +721,7 @@ const copyToClipboard = async (text) => {
                 ✅ FIX: Hapus backdrop-blur dari video card (mahal x5 card!)
                 Ganti solid bg yang lebih dark
               -->
-              <div class="relative block video-card-inner rounded-2xl sm:rounded-3xl overflow-hidden border border-white/15 group-hover:scale-105 transition-transform duration-500">
+              <div class="relative block video-card-inner rounded-2xl sm:rounded-3xl overflow-hidden border border-border-c group-hover:scale-105 transition-transform duration-500">
                 <a :href="video.link" target="_blank" rel="noopener noreferrer"
                   :aria-label="`Watch ${video.title} on YouTube`"
                   class="block focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/50 rounded-2xl sm:rounded-3xl">
@@ -681,11 +751,11 @@ const copyToClipboard = async (text) => {
                   </div>
                 </a>
                 <div class="p-4 sm:p-6">
-                  <h3 class="text-lg sm:text-xl font-black text-white group-hover:bg-gradient-to-r group-hover:from-[#fea3fe] group-hover:to-[#61fdfe] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 mb-2 sm:mb-3">
+                  <h3 class="text-lg sm:text-xl font-black text-fg group-hover:bg-gradient-to-r group-hover:from-[#fea3fe] group-hover:to-[#61fdfe] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 mb-2 sm:mb-3">
                     {{ video.title }}
                   </h3>
                   <button @click="shareVideo(video)"
-                    class="flex items-center gap-2 text-sm text-white/50 hover:text-white/90 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe] rounded px-2 py-1"
+                    class="flex items-center gap-2 text-sm text-subtle hover:text-fg transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe] rounded px-2 py-1"
                     :aria-label="`Share ${video.title}`">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                       <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8" />
@@ -703,7 +773,7 @@ const copyToClipboard = async (text) => {
               ✅ FIX: Hapus backdrop-blur dari tombol view all
             -->
             <a href="https://www.youtube.com/@shounen_shoujo" target="_blank" rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-white/10 border-2 border-white/25 rounded-xl sm:rounded-2xl font-black text-sm sm:text-base tracking-wide hover:bg-white/15 hover:border-[#fea3fe]/60 hover:scale-105 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/40">
+              class="inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-surface border-2 border-border-c rounded-xl sm:rounded-2xl font-black text-sm sm:text-base tracking-wide hover:bg-surface-strong hover:border-[#fea3fe]/60 hover:scale-105 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/40">
               <span>{{ t.activities.viewAll }}</span>
               <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
@@ -762,7 +832,7 @@ const copyToClipboard = async (text) => {
     </main>
 
     <!-- Footer -->
-    <footer class="relative py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t border-white/10" role="contentinfo">
+    <footer class="relative py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t border-white/10 bg-band-bg text-band-fg" role="contentinfo">
       <div class="max-w-7xl mx-auto text-center relative z-10">
         <div class="inline-flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
           <img src="/image/ss-pink.webp" alt="Shounen Shoujo Logo" loading="lazy" decoding="async" width="80" height="80"
@@ -845,8 +915,8 @@ const copyToClipboard = async (text) => {
    SCROLL TO TOP BUTTON
 =================================================== */
 .scroll-top-btn {
-  background: rgba(0, 0, 0, 0.8);
-  border: 1.5px solid rgba(254, 163, 254, 0.4);
+  background: var(--surface-strong);
+  border: 1.5px solid var(--border);
   width: 52px;
   height: 52px;
 }
@@ -856,12 +926,27 @@ const copyToClipboard = async (text) => {
    GLASS BUTTON — backdrop-blur hanya di desktop
    ✅ FIX UTAMA: semua glass effect dimatikan di mobile
 =================================================== */
+/*
+   Default = tombol berada di atas brand band gelap (nav belum di-scroll
+   menutupi hero). Pakai glass putih supaya ikon (currentColor) terbaca.
+   Saat .nav-scrolled aktif (bar solid), beralih ke token tema agar ikut flip.
+*/
 .glass-btn {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.10);
   border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--band-fg);
 }
 .glass-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(254, 163, 254, 0.4);
+}
+.nav-scrolled .glass-btn {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--fg);
+}
+.nav-scrolled .glass-btn:hover {
+  background: var(--surface-strong);
   border-color: rgba(254, 163, 254, 0.4);
 }
 @media (min-width: 768px) {
@@ -876,12 +961,12 @@ const copyToClipboard = async (text) => {
    ✅ FIX: backdrop-blur hanya di md ke atas
 =================================================== */
 .nav-scrolled {
-  background: rgba(0, 0, 0, 0.95);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--elevate);
+  border-bottom: 1px solid var(--border);
 }
 @media (min-width: 768px) {
   .nav-scrolled {
-    background: rgba(0, 0, 0, 0.9);
+    background: var(--elevate);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
   }
@@ -892,11 +977,10 @@ const copyToClipboard = async (text) => {
    ✅ FIX: backdrop-blur hanya di md ke atas
 =================================================== */
 .about-card {
-  background: rgba(255, 255, 255, 0.07);
+  background: var(--surface);
 }
 @media (min-width: 768px) {
   .about-card {
-    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
   }
@@ -907,11 +991,10 @@ const copyToClipboard = async (text) => {
    ✅ FIX: backdrop-blur hanya di md ke atas
 =================================================== */
 .video-card-inner {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--surface);
 }
 @media (min-width: 768px) {
   .video-card-inner {
-    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
   }

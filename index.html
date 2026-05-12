@@ -53,14 +53,39 @@
     -->
     <link rel="preload" as="image" href="/image/ss-pink.webp" fetchpriority="high" />
 
-    <!-- ✅ Critical CSS — cegah flash hitam sebelum bundle load -->
+    <!--
+      ✅ Anti-FOUC: set tema SEBELUM bundle/CSS load.
+      Membaca localStorage('theme'); fallback ke preferensi device.
+      Skrip sinkron supaya data-theme sudah ada sebelum paint pertama.
+    -->
+    <script>
+      (function () {
+        try {
+          var s = localStorage.getItem('theme');
+          var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var t = s ? s : (d ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+
+    <!--
+      ✅ Critical CSS — default terang, tanpa flash di kedua mode.
+      Override gelap memakai atribut data-theme yang sudah diset skrip di atas,
+      jadi pengguna dark mode pun tidak melihat kilat putih sebelum bundle load.
+    -->
     <style>
       *, *::before, *::after { box-sizing: border-box; }
-      body { margin: 0; background: #000; color: #fff; overflow-x: hidden; }
+      html { background: #ffffff; }
+      html[data-theme="dark"] { background: #0a0a0a; }
+      body { margin: 0; background: var(--bg, #ffffff); color: var(--fg, #18181b); overflow-x: hidden; }
+      html[data-theme="dark"] body { background: var(--bg, #0a0a0a); color: var(--fg, #ffffff); }
       #app { min-height: 100vh; }
     </style>
 
-    <link rel="icon" type="image/png" href="/image/ss-pink.png" />
+    <link rel="icon" type="image/png" href="/image/ss-pink.webp" />
   </head>
   <body>
     <div id="app"></div>
