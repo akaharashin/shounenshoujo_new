@@ -20,7 +20,7 @@
   --elevate-solid: rgba(255, 255, 255, 0.96);
   --fg: #18181b;
   --muted: #52525b;
-  --subtle: #71717a;
+  --subtle: #5b5b61;
   --border: rgba(0, 0, 0, 0.10);
   --border-subtle: rgba(0, 0, 0, 0.06);
 
@@ -33,13 +33,14 @@
   --pink-ink: #c026d3;
   --cyan-ink: #0891b2;
 
-  /* Brand band (hero & footer) — selalu gelap di kedua mode */
-  --band-bg: #0a0a0a;
-  --band-fg: #ffffff;
-  --band-muted: rgba(255, 255, 255, 0.72);
-
   /* Tekstur dekoratif latar */
   --texture: rgba(0, 0, 0, 0.025);
+  /* Opacity orbs glow global — diredam di light agar nyaris tak terlihat */
+  --orb-opacity: 0.04;
+
+  /* Hero — wordmark gradient & glow (LIGHT: pekat magenta→violet→teal, glow halus) */
+  --wordmark-grad: linear-gradient(to right, #c026d3, #9333ea, #0891b2);
+  --hero-glow: radial-gradient(ellipse 55% 50% at 50% 42%, rgba(192, 38, 211, 0.10), rgba(8, 145, 178, 0.06) 45%, transparent 72%);
 }
 
 [data-theme="dark"] {
@@ -60,6 +61,11 @@
   --cyan-ink: #61fdfe;
 
   --texture: rgba(255, 255, 255, 0.03);
+  --orb-opacity: 0.10;
+
+  /* Hero — versi gelap: wordmark pink→ungu→cyan, glow lebih kuat */
+  --wordmark-grad: linear-gradient(to right, #fea3fe, #b87ef5, #61fdfe);
+  --hero-glow: radial-gradient(ellipse 55% 50% at 50% 42%, rgba(254, 163, 254, 0.22), rgba(97, 253, 254, 0.14) 45%, transparent 72%);
 }
 
 /* ===================================================
@@ -80,9 +86,6 @@
   --color-border-subtle: var(--border-subtle);
   --color-pink-ink: var(--pink-ink);
   --color-cyan-ink: var(--cyan-ink);
-  --color-band-bg: var(--band-bg);
-  --color-band-fg: var(--band-fg);
-  --color-band-muted: var(--band-muted);
 }
 
 /* ===================================================

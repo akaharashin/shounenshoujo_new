@@ -227,6 +227,21 @@ const setupIntersectionObserver = () => {
   return observer
 }
 
+// ============================================
+// SCROLL-SPY — penanda nav aktif (satu indikator)
+// Section yang melewati pita tengah viewport jadi aktif.
+// ============================================
+const activeSection = ref('home')
+let sectionObserver = null
+const setupSectionObserver = () => {
+  sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) activeSection.value = entry.target.id
+    })
+  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 })
+  document.querySelectorAll('main section[id]').forEach(s => sectionObserver.observe(s))
+}
+
 const copyEmail = async () => {
   const email = 'shounenshoujo19@email.com'
   try {
@@ -265,6 +280,7 @@ onMounted(() => {
   document.addEventListener('keydown', handleEscapeKey)
   prefersDarkMedia.addEventListener('change', handleSchemeChange)
   setTimeout(() => { setupIntersectionObserver() }, 100)
+  setupSectionObserver()
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault()
@@ -282,6 +298,7 @@ onUnmounted(() => {
   document.removeEventListener('click', closeMenuOnOutsideClick, true)
   document.removeEventListener('keydown', handleEscapeKey)
   prefersDarkMedia.removeEventListener('change', handleSchemeChange)
+  if (sectionObserver) sectionObserver.disconnect()
 })
 
 const videos = [
@@ -365,20 +382,21 @@ const copyToClipboard = async (text) => {
       - Hapus animate-pulse di mobile (GPU-heavy)
       - Sembunyikan di mobile sepenuhnya (paling impactful untuk TBT)
     -->
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden hidden md:block" aria-hidden="true">
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden hidden md:block" aria-hidden="true"
+      style="opacity: var(--orb-opacity);">
       <div
-        class="absolute -top-40 -right-40 w-[600px] h-[600px] bg-[#fea3fe] opacity-10 rounded-full blur-[130px] animate-pulse"></div>
+        class="absolute -top-40 -right-40 w-[600px] h-[600px] bg-[#fea3fe] rounded-full blur-[130px] animate-pulse"></div>
       <div
-        class="absolute top-1/2 -left-40 w-[500px] h-[500px] bg-[#61fdfe] opacity-10 rounded-full blur-[130px] animate-pulse"
+        class="absolute top-1/2 -left-40 w-[500px] h-[500px] bg-[#61fdfe] rounded-full blur-[130px] animate-pulse"
         style="animation-delay: 1.5s;"></div>
       <div
-        class="absolute -bottom-40 right-1/3 w-[450px] h-[450px] bg-purple-500 opacity-[0.08] rounded-full blur-[130px] animate-pulse"
+        class="absolute -bottom-40 right-1/3 w-[450px] h-[450px] bg-purple-500 rounded-full blur-[130px] animate-pulse"
         style="animation-delay: 3s;"></div>
     </div>
 
     <!-- Navigation -->
     <nav
-      :class="['fixed w-full z-50 transition-all duration-500', scrolled ? 'nav-scrolled text-fg' : 'bg-transparent text-band-fg']"
+      :class="['fixed w-full z-50 transition-all duration-500 text-fg', scrolled ? 'nav-scrolled' : 'bg-transparent']"
       role="navigation" aria-label="Main navigation">
       <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <div class="flex justify-between items-center h-24">
@@ -401,11 +419,12 @@ const copyToClipboard = async (text) => {
           <!-- Desktop Menu -->
           <div class="hidden md:flex items-center gap-2">
             <a v-for="(item, key) in t.nav" :key="key" :href="`#${key}`"
-              class="relative px-6 py-3 font-bold text-sm tracking-wide transition-all duration-300 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe] rounded-xl"
-              :class="scrolled ? 'text-muted hover:text-fg' : 'text-band-muted hover:text-band-fg'">
+              class="relative px-6 py-3 font-bold text-sm tracking-wide transition-colors duration-300 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fea3fe] rounded-xl"
+              :class="activeSection === key ? 'text-fg' : 'text-muted hover:text-fg'"
+              :aria-current="activeSection === key ? 'page' : undefined">
               <span class="relative z-10">{{ item.toUpperCase() }}</span>
-              <div class="absolute inset-0 bg-surface rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] group-hover:w-full transition-all duration-300"></div>
+              <div class="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-pink-ink transition-all duration-300"
+                :class="activeSection === key ? 'w-full' : 'w-0 group-hover:w-full'"></div>
             </a>
 
             <!-- Theme Toggle Desktop -->
@@ -553,29 +572,31 @@ const copyToClipboard = async (text) => {
 
     <main>
 
-      <!-- Hero Section — brand band: GELAP di kedua mode (light & dark) -->
-      <section id="home" class="relative min-h-screen flex items-center justify-center px-6 lg:px-8 pt-24 bg-band-bg text-band-fg">
+      <!-- Hero Section — ikut tema (flip). Glow brand halus di belakang wordmark. -->
+      <section id="home" class="relative min-h-screen flex items-center justify-center px-6 lg:px-8 pt-24 bg-bg overflow-hidden">
+        <!-- Glow brand: lembut di light, lebih kuat di dark (via --hero-glow) -->
+        <div class="hero-glow absolute inset-0 pointer-events-none z-0" aria-hidden="true"></div>
         <div class="max-w-7xl mx-auto w-full relative z-10">
           <div class="text-center scroll-animate">
 
-            <div class="inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 mb-6 sm:mb-8 bg-white/10 rounded-full border border-white/20">
+            <div class="inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 mb-6 sm:mb-8 bg-surface rounded-full border border-border-c">
               <span class="relative flex h-2.5 w-2.5 sm:h-3 sm:w-3" aria-hidden="true">
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#fea3fe] opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 bg-[#fea3fe]"></span>
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-ink opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 bg-pink-ink"></span>
               </span>
-              <span class="text-xs sm:text-sm font-bold tracking-wider text-white/90">{{ t.hero.badge }}</span>
+              <span class="text-xs sm:text-sm font-bold tracking-wider text-fg">{{ t.hero.badge }}</span>
             </div>
 
             <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 sm:mb-6 leading-none">
-              <span class="inline-block bg-gradient-to-r from-[#fea3fe] via-purple-400 to-[#61fdfe] bg-clip-text text-transparent drop-shadow-2xl">SHOUNEN</span>
+              <span class="wordmark inline-block">SHOUNEN</span>
               <br />
-              <span class="inline-block bg-gradient-to-r from-[#61fdfe] via-blue-400 to-[#fea3fe] bg-clip-text text-transparent drop-shadow-2xl">SHOUJO</span>
+              <span class="wordmark inline-block">SHOUJO</span>
             </h1>
 
-            <p class="text-sm sm:text-lg md:text-xl lg:text-2xl text-white/70 mb-3 sm:mb-4 font-bold tracking-wide px-4">
+            <p class="text-sm sm:text-lg md:text-xl lg:text-2xl text-fg mb-3 sm:mb-4 font-bold tracking-wide px-4">
               {{ t.hero.subtitle }}
             </p>
-            <p class="text-base sm:text-lg md:text-xl text-white/50 max-w-3xl mx-auto mb-8 sm:mb-12 leading-relaxed px-4">
+            <p class="text-base sm:text-lg md:text-xl text-muted max-w-3xl mx-auto mb-8 sm:mb-12 leading-relaxed px-4">
               {{ t.hero.description }}
             </p>
 
@@ -596,14 +617,14 @@ const copyToClipboard = async (text) => {
                 ✅ FIX: Hapus backdrop-blur dari tombol sekunder
               -->
               <a href="#contact"
-                class="px-6 sm:px-10 py-4 sm:py-5 bg-white/10 border-2 border-white/30 rounded-xl sm:rounded-2xl font-black text-base sm:text-lg tracking-wide text-white hover:bg-white/15 hover:border-[#61fdfe]/70 hover:scale-105 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#61fdfe]/40 text-center">
+                class="px-6 sm:px-10 py-4 sm:py-5 border-2 border-border-c rounded-xl sm:rounded-2xl font-black text-base sm:text-lg tracking-wide text-fg hover:bg-surface hover:border-[#61fdfe]/70 hover:scale-105 transition-all duration-300 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#61fdfe]/40 text-center">
                 {{ t.hero.ctaBook }}
               </a>
             </div>
 
             <div class="flex justify-center">
               <div class="animate-bounce" aria-hidden="true">
-                <svg class="w-6 h-6 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-6 h-6 text-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                 </svg>
               </div>
@@ -832,20 +853,20 @@ const copyToClipboard = async (text) => {
     </main>
 
     <!-- Footer -->
-    <footer class="relative py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t border-white/10 bg-band-bg text-band-fg" role="contentinfo">
+    <footer class="relative py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t border-border-subtle bg-surface text-fg" role="contentinfo">
       <div class="max-w-7xl mx-auto text-center relative z-10">
         <div class="inline-flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
           <img src="/image/ss-pink.webp" alt="Shounen Shoujo Logo" loading="lazy" decoding="async" width="80" height="80"
             class="w-16 sm:w-20 transition-opacity duration-500 hover:opacity-80" />
           <div class="text-left">
-            <div class="text-xl sm:text-2xl font-black bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] bg-clip-text text-transparent">
+            <div class="wordmark text-xl sm:text-2xl font-black">
               SHOUNEN SHOUJO
             </div>
-            <div class="text-xs font-bold text-white/60 tracking-widest">COMMUNITY</div>
+            <div class="text-xs font-bold text-subtle tracking-widest">COMMUNITY</div>
           </div>
         </div>
 
-        <p class="text-white/70 mb-8 sm:mb-10 text-base sm:text-lg font-semibold px-4">{{ t.footer.tagline }}</p>
+        <p class="text-muted mb-8 sm:mb-10 text-base sm:text-lg font-semibold px-4">{{ t.footer.tagline }}</p>
 
         <ul class="flex justify-center gap-4 sm:gap-6 mb-8 sm:mb-10 list-none p-0 m-0" aria-label="Social media links">
           <li>
@@ -853,25 +874,25 @@ const copyToClipboard = async (text) => {
               ✅ FIX: Hapus backdrop-blur dari social icons di footer
             -->
             <a href="https://instagram.com/shounenshoujo_" target="_blank" rel="noopener noreferrer"
-              class="group w-12 h-12 sm:w-14 sm:h-14 bg-white/10 hover:bg-white/15 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/20 hover:border-[#fea3fe]/50 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/40"
+              class="group w-12 h-12 sm:w-14 sm:h-14 bg-transparent hover:bg-surface-strong rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-border-c hover:border-[#fea3fe]/50 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#fea3fe]/40"
               aria-label="Follow us on Instagram">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 sm:w-6 sm:h-6 text-white/80 group-hover:text-white group-hover:scale-125 transition-all" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 sm:w-6 sm:h-6 text-muted group-hover:text-pink-ink group-hover:scale-125 transition-all" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A5.5 5.5 0 1 0 12 18a5.5 5.5 0 0 0 0-11zm0 2A3.5 3.5 0 1 1 8.5 12 3.5 3.5 0 0 1 12 9.5zm4.8-2.9a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6z" />
               </svg>
             </a>
           </li>
           <li>
             <a href="https://www.youtube.com/@shounen_shoujo" target="_blank" rel="noopener noreferrer"
-              class="group w-12 h-12 sm:w-14 sm:h-14 bg-white/10 hover:bg-white/15 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/20 hover:border-[#61fdfe]/50 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#61fdfe]/40"
+              class="group w-12 h-12 sm:w-14 sm:h-14 bg-transparent hover:bg-surface-strong rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-border-c hover:border-[#61fdfe]/50 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#61fdfe]/40"
               aria-label="Subscribe to our YouTube channel">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 sm:w-7 sm:h-7 text-white/80 group-hover:text-white group-hover:scale-125 transition-all" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 sm:w-7 sm:h-7 text-muted group-hover:text-pink-ink group-hover:scale-125 transition-all" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.6 3.6 12 3.6 12 3.6s-7.6 0-9.4.5A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.8.5 9.4.5 9.4.5s7.6 0 9.4-.5a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.6 15.5v-7l6.4 3.5-6.4 3.5z" />
               </svg>
             </a>
           </li>
         </ul>
 
-        <div class="text-white/60 text-xs sm:text-sm font-semibold px-4">
+        <div class="text-subtle text-xs sm:text-sm font-semibold px-4">
           {{ t.footer.copyright }}
         </div>
       </div>
@@ -901,6 +922,19 @@ const copyToClipboard = async (text) => {
 
 <style scoped>
 /* ===================================================
+   HERO — wordmark gradient & glow (ikut tema via CSS var)
+=================================================== */
+.wordmark {
+  background-image: var(--wordmark-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero-glow {
+  background: var(--hero-glow);
+}
+
+/* ===================================================
    BTN PRIMARY
 =================================================== */
 .btn-primary {
@@ -927,33 +961,17 @@ const copyToClipboard = async (text) => {
    ✅ FIX UTAMA: semua glass effect dimatikan di mobile
 =================================================== */
 /*
-   Default = tombol berada di atas brand band gelap (nav belum di-scroll
-   menutupi hero). Pakai glass putih supaya ikon (currentColor) terbaca.
-   Saat .nav-scrolled aktif (bar solid), beralih ke token tema agar ikut flip.
+   Hero kini ikut flip, jadi tombol nav SELALU berbasis token.
+   Transparan + border tipis; ikon pakai var(--fg) → terbaca di kedua mode.
 */
 .glass-btn {
-  background: rgba(255, 255, 255, 0.10);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: var(--band-fg);
-}
-.glass-btn:hover {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(254, 163, 254, 0.4);
-}
-.nav-scrolled .glass-btn {
-  background: var(--surface);
-  border-color: var(--border);
+  background: transparent;
+  border: 1px solid var(--border);
   color: var(--fg);
 }
-.nav-scrolled .glass-btn:hover {
-  background: var(--surface-strong);
-  border-color: rgba(254, 163, 254, 0.4);
-}
-@media (min-width: 768px) {
-  .glass-btn {
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-  }
+.glass-btn:hover {
+  background: var(--surface);
+  border-color: var(--border);
 }
 
 /* ===================================================
