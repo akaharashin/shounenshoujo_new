@@ -382,16 +382,16 @@ const copyToClipboard = async (text) => {
       - Hapus animate-pulse di mobile (GPU-heavy)
       - Sembunyikan di mobile sepenuhnya (paling impactful untuk TBT)
     -->
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden hidden md:block" aria-hidden="true"
-      style="opacity: var(--orb-opacity);">
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden hidden md:block" aria-hidden="true">
       <div
-        class="absolute -top-40 -right-40 w-[600px] h-[600px] bg-[#fea3fe] rounded-full blur-[130px] animate-pulse"></div>
+        class="orb absolute -top-40 -right-40 w-[600px] h-[600px] bg-[#fea3fe] rounded-full blur-[130px]"
+        style="animation-duration: 6s;"></div>
       <div
-        class="absolute top-1/2 -left-40 w-[500px] h-[500px] bg-[#61fdfe] rounded-full blur-[130px] animate-pulse"
-        style="animation-delay: 1.5s;"></div>
+        class="orb absolute top-1/2 -left-40 w-[500px] h-[500px] bg-[#61fdfe] rounded-full blur-[130px]"
+        style="animation-duration: 7.5s; animation-delay: -2s;"></div>
       <div
-        class="absolute -bottom-40 right-1/3 w-[450px] h-[450px] bg-purple-500 rounded-full blur-[130px] animate-pulse"
-        style="animation-delay: 3s;"></div>
+        class="orb absolute -bottom-40 right-1/3 w-[450px] h-[450px] bg-purple-500 rounded-full blur-[130px]"
+        style="animation-duration: 9s; animation-delay: -4s;"></div>
     </div>
 
     <!-- Navigation -->
@@ -944,6 +944,19 @@ const copyToClipboard = async (text) => {
 }
 
 /* ===================================================
+   ORBS — "breathing" sendiri (opacity + scale), ritme tak serempak
+   Base opacity = var(--orb-opacity) → saat reduced-motion tetap samar, tak menyala penuh.
+=================================================== */
+.orb {
+  opacity: var(--orb-opacity);
+  animation: orbBreath 6s ease-in-out infinite;
+}
+@keyframes orbBreath {
+  0%, 100% { opacity: var(--orb-opacity); transform: scale(1); }
+  50%      { opacity: calc(var(--orb-opacity) * 1.8); transform: scale(1.12); }
+}
+
+/* ===================================================
    BTN PRIMARY
 =================================================== */
 .btn-primary {
@@ -1069,8 +1082,9 @@ const copyToClipboard = async (text) => {
     opacity: 1;
     transform: none;
   }
-  /* Matikan eksplisit kedua animasi hidup hero */
+  /* Matikan eksplisit animasi hidup hero */
   #home .wordmark { animation: none; filter: none; }
+  .orb { animation: none; }
   .animate-pulse { animation: none; }
 }
 

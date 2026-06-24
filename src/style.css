@@ -37,7 +37,7 @@
   --texture: rgba(0, 0, 0, 0.025);
   /* Opacity orbs glow global — pemanis halus tersebar (light butuh sedikit
      lebih tinggi dari dark di latar putih agar pastel tetap terbaca) */
-  --orb-opacity: 0.10;
+  --orb-opacity: 0.16;
 
   /* Hero — wordmark gradient (LIGHT: pekat magenta→violet→teal) */
   --wordmark-grad: linear-gradient(to right, #c026d3, #9333ea, #0891b2);
@@ -64,7 +64,7 @@
   --cyan-ink: #61fdfe;
 
   --texture: rgba(255, 255, 255, 0.03);
-  --orb-opacity: 0.16;
+  --orb-opacity: 0.24;
 
   /* Hero — versi gelap: wordmark pink→ungu→cyan */
   --wordmark-grad: linear-gradient(to right, #fea3fe, #b87ef5, #61fdfe);
