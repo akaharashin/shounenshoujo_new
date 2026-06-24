@@ -573,7 +573,7 @@ const copyToClipboard = async (text) => {
     <main>
 
       <!-- Hero Section — ikut tema (flip). Pemanis hanya dari orbs global tersebar. -->
-      <section id="home" class="relative min-h-screen flex items-center justify-center px-6 lg:px-8 pt-24 bg-bg overflow-hidden">
+      <section id="home" class="relative min-h-screen flex items-center justify-center px-6 lg:px-8 pt-24">
         <div class="max-w-7xl mx-auto w-full relative z-10">
           <div class="text-center scroll-animate">
 
@@ -851,7 +851,7 @@ const copyToClipboard = async (text) => {
     </main>
 
     <!-- Footer -->
-    <footer class="relative py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t border-border-subtle bg-surface text-fg" role="contentinfo">
+    <footer class="relative py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t border-border-subtle text-fg" role="contentinfo">
       <div class="max-w-7xl mx-auto text-center relative z-10">
         <div class="inline-flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
           <img src="/image/ss-pink.webp" alt="Shounen Shoujo Logo" loading="lazy" decoding="async" width="80" height="80"
@@ -931,16 +931,11 @@ const copyToClipboard = async (text) => {
 /* "Breathing" glow HANYA di hero — footer dapat gradient teks tanpa animasi.
    Opacity teks tetap penuh; hanya drop-shadow membesar/mengecil. */
 #home .wordmark {
-  animation: wordmarkGlow 3.5s ease-in-out infinite;
+  animation: wordmarkGlow 4s ease-in-out infinite;
 }
 @keyframes wordmarkGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 12px var(--wm-glow));
-  }
-  50% {
-    filter: drop-shadow(0 0 28px var(--wm-glow-strong))
-            drop-shadow(0 0 48px var(--wm-glow));
-  }
+  0%, 100% { filter: drop-shadow(0 0 14px var(--wm-glow)); }
+  50%      { filter: drop-shadow(0 0 22px var(--wm-glow)); }
 }
 
 /* ===================================================
