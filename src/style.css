@@ -35,13 +35,14 @@
 
   /* Tekstur dekoratif latar */
   --texture: rgba(0, 0, 0, 0.025);
-  /* Opacity orbs glow global — di latar putih, pastel butuh opacity lebih
-     tinggi dari latar gelap agar tetap terbaca sebagai pemanis (bukan typo) */
-  --orb-opacity: 0.12;
+  /* Opacity orbs glow global — pemanis halus tersebar (light butuh sedikit
+     lebih tinggi dari dark di latar putih agar pastel tetap terbaca) */
+  --orb-opacity: 0.10;
 
-  /* Hero — wordmark gradient & glow (LIGHT: pekat magenta→violet→teal, glow halus) */
+  /* Hero — wordmark gradient (LIGHT: pekat magenta→violet→teal) */
   --wordmark-grad: linear-gradient(to right, #c026d3, #9333ea, #0891b2);
-  --hero-glow: radial-gradient(ellipse 55% 50% at 50% 42%, rgba(192, 38, 211, 0.10), rgba(8, 145, 178, 0.06) 45%, transparent 72%);
+  /* Glow "breathing" wordmark — magenta, kebaca di latar putih */
+  --wm-glow: rgba(192, 38, 211, 0.35);
 }
 
 [data-theme="dark"] {
@@ -62,11 +63,11 @@
   --cyan-ink: #61fdfe;
 
   --texture: rgba(255, 255, 255, 0.03);
-  --orb-opacity: 0.10;
+  --orb-opacity: 0.16;
 
-  /* Hero — versi gelap: wordmark pink→ungu→cyan, glow lebih kuat */
+  /* Hero — versi gelap: wordmark pink→ungu→cyan */
   --wordmark-grad: linear-gradient(to right, #fea3fe, #b87ef5, #61fdfe);
-  --hero-glow: radial-gradient(ellipse 55% 50% at 50% 42%, rgba(254, 163, 254, 0.22), rgba(97, 253, 254, 0.14) 45%, transparent 72%);
+  --wm-glow: rgba(254, 163, 254, 0.45);
 }
 
 /* ===================================================

@@ -572,10 +572,8 @@ const copyToClipboard = async (text) => {
 
     <main>
 
-      <!-- Hero Section — ikut tema (flip). Glow brand halus di belakang wordmark. -->
+      <!-- Hero Section — ikut tema (flip). Pemanis hanya dari orbs global tersebar. -->
       <section id="home" class="relative min-h-screen flex items-center justify-center px-6 lg:px-8 pt-24 bg-bg overflow-hidden">
-        <!-- Glow brand: lembut di light, lebih kuat di dark (via --hero-glow) -->
-        <div class="hero-glow absolute inset-0 pointer-events-none z-0" aria-hidden="true"></div>
         <div class="max-w-7xl mx-auto w-full relative z-10">
           <div class="text-center scroll-animate">
 
@@ -922,7 +920,7 @@ const copyToClipboard = async (text) => {
 
 <style scoped>
 /* ===================================================
-   HERO — wordmark gradient & glow (ikut tema via CSS var)
+   HERO — wordmark gradient (ikut tema via CSS var)
 =================================================== */
 .wordmark {
   background-image: var(--wordmark-grad);
@@ -930,8 +928,14 @@ const copyToClipboard = async (text) => {
   background-clip: text;
   color: transparent;
 }
-.hero-glow {
-  background: var(--hero-glow);
+/* "Breathing" glow HANYA di hero — footer dapat gradient teks tanpa animasi.
+   Opacity teks tetap penuh; hanya drop-shadow membesar/mengecil. */
+#home .wordmark {
+  animation: wordmarkGlow 4s ease-in-out infinite;
+}
+@keyframes wordmarkGlow {
+  0%, 100% { filter: drop-shadow(0 0 18px var(--wm-glow)); }
+  50%      { filter: drop-shadow(0 0 34px var(--wm-glow)); }
 }
 
 /* ===================================================
@@ -1060,6 +1064,9 @@ const copyToClipboard = async (text) => {
     opacity: 1;
     transform: none;
   }
+  /* Matikan eksplisit kedua animasi hidup hero */
+  #home .wordmark { animation: none; filter: none; }
+  .animate-pulse { animation: none; }
 }
 
 html {
