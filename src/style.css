@@ -42,7 +42,8 @@
   /* Hero — wordmark gradient (LIGHT: pekat magenta→violet→teal) */
   --wordmark-grad: linear-gradient(to right, #c026d3, #9333ea, #0891b2);
   /* Glow "breathing" wordmark — magenta, kebaca di latar putih */
-  --wm-glow: rgba(192, 38, 211, 0.35);
+  --wm-glow: rgba(192, 38, 211, 0.30);
+  --wm-glow-strong: rgba(192, 38, 211, 0.55);
 }
 
 [data-theme="dark"] {
@@ -67,7 +68,8 @@
 
   /* Hero — versi gelap: wordmark pink→ungu→cyan */
   --wordmark-grad: linear-gradient(to right, #fea3fe, #b87ef5, #61fdfe);
-  --wm-glow: rgba(254, 163, 254, 0.45);
+  --wm-glow: rgba(254, 163, 254, 0.40);
+  --wm-glow-strong: rgba(254, 163, 254, 0.70);
 }
 
 /* ===================================================

@@ -931,11 +931,16 @@ const copyToClipboard = async (text) => {
 /* "Breathing" glow HANYA di hero — footer dapat gradient teks tanpa animasi.
    Opacity teks tetap penuh; hanya drop-shadow membesar/mengecil. */
 #home .wordmark {
-  animation: wordmarkGlow 4s ease-in-out infinite;
+  animation: wordmarkGlow 3.5s ease-in-out infinite;
 }
 @keyframes wordmarkGlow {
-  0%, 100% { filter: drop-shadow(0 0 18px var(--wm-glow)); }
-  50%      { filter: drop-shadow(0 0 34px var(--wm-glow)); }
+  0%, 100% {
+    filter: drop-shadow(0 0 12px var(--wm-glow));
+  }
+  50% {
+    filter: drop-shadow(0 0 28px var(--wm-glow-strong))
+            drop-shadow(0 0 48px var(--wm-glow));
+  }
 }
 
 /* ===================================================
