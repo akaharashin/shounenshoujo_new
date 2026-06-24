@@ -1,6 +1,23 @@
 @import "tailwindcss";
 
 /* ===================================================
+   FONT HEADING — Space Grotesk (self-host, OFL)
+   Variable woff2 (wght 300–700). Body tetap system-ui.
+=================================================== */
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk[wght].woff2') format('woff2');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Daftarkan ke Tailwind v4 → utility `font-heading` */
+@theme {
+  --font-heading: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ===================================================
    DARK VARIANT — berbasis atribut [data-theme]
    Memungkinkan utility `dark:*` aktif saat <html data-theme="dark">
 =================================================== */

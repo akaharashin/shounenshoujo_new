@@ -1,9 +1,9 @@
 <script setup>
-import HelloWorld from './components/ShounenShoujo.vue'
+import ShounenShoujo from './components/ShounenShoujo.vue'
 </script>
 
 <template>
-  <HelloWorld msg="Vite + Vue" />
+  <ShounenShoujo />
 </template>
 
 <style scoped>

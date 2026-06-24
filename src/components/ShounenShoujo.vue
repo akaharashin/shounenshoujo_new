@@ -34,37 +34,37 @@ const translations = {
     hero: {
       badge: 'ANIKURA, KOMUNITAS J-POP',
       subtitle: 'J-Pop • Anison • Vocaloid • Idol • Odottemita • Utattemita',
-      description: 'J-Pop & Anikura Community yang aktif menghadirkan skena Random Play Dance, Odottemita, dan Utattemita di berbagai event Jejepangan.',
+      description: 'Komunitas J-Pop dan Anikura yang aktif menghadirkan Random Play Dance, Odottemita, dan Utattemita di berbagai event Jejepangan.',
       ctaCollection: 'Koleksi RPD',
-      ctaBook: 'HADIRKAN RPD DI EVENT KAMU',
+      ctaBook: 'HADIRKAN RPD DI ACARA KAMU',
     },
     about: {
       badge: 'TENTANG KAMI',
-      title: 'Hadirkan Vibes',
-      titleHighlight: 'J-Pop di Event Kamu',
-      p1: 'adalah komunitas yang berfokus pada budaya J-Pop,',
+      title: 'Hadirkan Energi',
+      titleHighlight: 'J-Pop di Acara Kamu',
+      p1: 'adalah komunitas yang berfokus pada budaya J-Pop dan',
       p1Highlight: '(Anime Club Culture: Anisong, Game, dan Vocaloid),',
-      p1Continue: 'serta berbagai bentuk budaya pop Jepang lainnya. Kami jadi rumah buat para penggemar J-Pop, Vocaloid, dan Idol buat kumpul, berkreasi, dan have fun bareng.',
+      p1Continue: 'serta budaya pop Jepang lainnya. Kami adalah tempat berkumpulnya penggemar J-Pop, Vocaloid, dan idol untuk berkreasi dan tampil bersama.',
       p2: 'Dengan',
-      p2Highlight: 'yang solid, kami aktif tampil di berbagai event lokal, bawa energi dan vibes J-Pop yang autentik. Dari Utattemita sampai Odottemita, kami siap bikin event kamu makin seru dan berkesan.',
-      p3: 'Kami terbuka buat kolaborasi sama',
+      p2Highlight: 'yang solid, kami aktif tampil di berbagai acara lokal. Dari Utattemita hingga Odottemita, kami menghadirkan energi J-Pop yang autentik untuk membuat setiap acara lebih hidup dan berkesan.',
+      p3: 'Kami juga terbuka untuk berkolaborasi dengan',
       p3Highlight: 'Event Organizer',
-      p3Continue: 'yang pengen hadirin konten J-Pop dan Anikura di event mereka. Yuk bikin event kamu makin berkesan bareng kami!',
-      rpd: 'Random Play Dance', utattemita: 'Karaoke / Song Cover', anikura: 'Anisong Club', media: 'Dokumentasi & Konten Jpop'
+      p3Continue: 'yang ingin menghadirkan konten J-Pop dan Anikura di acara mereka. Mari ciptakan acara yang berkesan bersama kami.',
+      rpd: 'Random Play Dance', utattemita: 'Karaoke / Song Cover', anikura: 'Anisong Club', media: 'Dokumentasi & Konten J-Pop'
     },
     activities: {
       badge: 'KEGIATAN KAMI', title: 'RPD & Sesi Karaoke',
-      description: 'Saksikan aksi kami di berbagai event melalui video dokumentasi kami.',
+      description: 'Saksikan penampilan kami di berbagai acara melalui video dokumentasi.',
       share: 'Bagikan', viewAll: 'LIHAT SEMUA VIDEO'
     },
     contact: {
-      title: 'Mau Collab Bareng?',
-      description: 'Lagi nyari talent buat event kamu? Kami siap bawa vibes J-Pop yang bikin event kamu beda dari yang lain.',
-      descriptionHighlight: 'Yuk collab!',
+      title: 'Tertarik Berkolaborasi?',
+      description: 'Sedang mencari pengisi acara untuk acara Anda? Kami siap menghadirkan penampilan J-Pop yang membuat acara Anda berbeda.',
+      descriptionHighlight: 'Mari berkolaborasi.',
       ctaInstagram: 'INSTAGRAM', ctaEmail: 'SALIN EMAIL'
     },
-    footer: { tagline: 'RPD, Anikura, dan vibes J-Pop — siap hadir di event kamu 🌸', copyright: `© 2025–${new Date().getFullYear()} Shounen Shoujo. Dibuat dengan 💖 oleh Akahara` },
-    toast: { emailCopied: 'Email berhasil disalin! 📋', linkCopied: 'Link berhasil disalin! 🔗' },
+    footer: { tagline: 'RPD, Anikura, dan J-Pop — siap hadir di setiap acara Anda. 🌸', copyright: `© 2025–${new Date().getFullYear()} Shounen Shoujo. Dibuat oleh Akahara` },
+    toast: { emailCopied: 'Email berhasil disalin.', linkCopied: 'Link berhasil disalin.' },
     theme: { toggle: 'Ganti tema' }
   },
   en: {
@@ -72,20 +72,20 @@ const translations = {
     hero: {
       badge: 'ANIKURA, J-POP COMMUNITY',
       subtitle: 'J-Pop • Anison • Vocaloid • Idol • Odottemita • Utattemita',
-      description: 'An active J-Pop & Anikura Community bringing Random Play Dance, Odottemita, and Utattemita scenes to various Japanese culture events.',
+      description: 'An active J-Pop and Anikura community bringing Random Play Dance, Odottemita, and Utattemita to Japanese pop culture events.',
       ctaCollection: 'RPD Collection', ctaBook: 'BRING RPD TO YOUR EVENT',
     },
     about: {
-      badge: 'ABOUT US', title: 'Bringing J-Pop', titleHighlight: 'Vibes to Your Event',
-      p1: 'is a community focused on J-Pop culture,',
+      badge: 'ABOUT US', title: 'Bringing J-Pop', titleHighlight: 'Energy to Your Event',
+      p1: 'is a community focused on J-Pop culture and',
       p1Highlight: '(Anime Club Culture: Anisong, Games, and Vocaloid),',
-      p1Continue: 'and various other forms of Japanese pop culture. We\'re a home for J-Pop, Vocaloid, and Idol fans to hang out, create, and have fun together.',
+      p1Continue: 'along with other forms of Japanese pop culture. We\'re a home for J-Pop, Vocaloid, and idol fans to create and perform together.',
       p2: 'With our solid',
-      p2Highlight: 'we actively perform at various local events, bringing authentic J-Pop energy and vibes. From Utattemita to Odottemita, we\'re ready to make your event more exciting and unforgettable.',
-      p3: 'We\'re open to collaboration with',
+      p2Highlight: 'we perform regularly at local events. From Utattemita to Odottemita, we bring authentic J-Pop energy to make every event more vibrant and memorable.',
+      p3: 'We\'re also open to collaborating with',
       p3Highlight: 'Event Organizers',
-      p3Continue: 'who want to bring J-Pop and Anikura content to their events. Let\'s make your event unforgettable together!',
-      rpd: 'Random Play Dance', utattemita: 'Karaoke / Song Cover', anikura: 'Anisong Club', media: 'Documentation & Jpop Content'
+      p3Continue: 'who want to bring J-Pop and Anikura content to their events. Let\'s create something memorable together.',
+      rpd: 'Random Play Dance', utattemita: 'Karaoke / Song Cover', anikura: 'Anisong Club', media: 'Documentation & J-Pop Content'
     },
     activities: {
       badge: 'OUR ACTIVITIES', title: 'RPD & Karaoke Session',
@@ -93,13 +93,13 @@ const translations = {
       share: 'Share', viewAll: 'VIEW ALL VIDEOS'
     },
     contact: {
-      title: 'Want to Collab With Us?',
-      description: 'Looking for talent for your event? We\'re ready to bring J-Pop energy that makes your event stand out.',
-      descriptionHighlight: 'Let\'s collab!',
+      title: 'Interested in Collaborating?',
+      description: 'Looking for performers for your event? We bring J-Pop performances that make your event stand out.',
+      descriptionHighlight: 'Let\'s collaborate.',
       ctaInstagram: 'INSTAGRAM', ctaEmail: 'COPY EMAIL'
     },
-    footer: { tagline: 'Spreading J-Pop Love, One Event at a Time 🌸', copyright: `© 2025–${new Date().getFullYear()} Shounen Shoujo. Made with 💖 by Akahara` },
-    toast: { emailCopied: 'Email copied to clipboard! 📋', linkCopied: 'Link copied to clipboard! 🔗' },
+    footer: { tagline: 'RPD, Anikura, and J-Pop — ready for every event. 🌸', copyright: `© 2025–${new Date().getFullYear()} Shounen Shoujo. Made by Akahara` },
+    toast: { emailCopied: 'Email copied to clipboard.', linkCopied: 'Link copied to clipboard.' },
     theme: { toggle: 'Toggle theme' }
   },
   ja: {
@@ -107,34 +107,34 @@ const translations = {
     hero: {
       badge: 'アニクラ、J-POPコミュニティ',
       subtitle: 'J-Pop • アニソン • ボカロ • アイドル • 踊ってみた • 歌ってみた',
-      description: 'ランダムプレイダンス、踊ってみた、歌ってみたのシーンを様々な日本文化イベントで展開する活発なJ-Pop＆アニクラコミュニティです。',
+      description: 'ランダムプレイダンス、踊ってみた、歌ってみたを日本文化イベントで届ける、J-Popとアニクラのコミュニティです。',
       ctaCollection: 'RPDコレクション', ctaBook: 'イベントにRPDを予約する',
     },
     about: {
-      badge: '私たちについて', title: 'J-Popのシーンを', titleHighlight: 'あなたのイベントへ',
-      p1: 'は、J-Pop文化、',
+      badge: '私たちについて', title: 'J-Popのエネルギーを', titleHighlight: 'あなたのイベントへ',
+      p1: 'は、J-Pop文化や',
       p1Highlight: '（アニメクラブカルチャー：アニソン、ゲーム、ボカロ）、',
-      p1Continue: 'および日本のポップカルチャーの様々な形態に焦点を当てたコミュニティです。J-Pop、ボカロ、アイドルファンが集まり、創作し、一緒に楽しむ場を提供しています。',
-      p2: '堅実な',
-      p2Highlight: 'で、私たちは様々なローカルイベントで積極的にパフォーマンスを行い、本格的なJ-Popのエネルギーと雰囲気をもたらしています。歌ってみたから踊ってみたまで、あなたのイベントをより盛り上げる準備ができています。',
-      p3: 'イベントにJ-Popとアニクラコンテンツを取り入れたい',
+      p1Continue: 'そして日本のポップカルチャーに親しむコミュニティです。J-Pop、ボカロ、アイドルのファンが集まり、創作し、共に表現する場をつくっています。',
+      p2: '結束した',
+      p2Highlight: 'を中心に、私たちは地域のイベントで活発に活動しています。歌ってみたから踊ってみたまで、本格的なJ-Popのエネルギーで、どんなイベントもより活気あふれる時間にします。',
+      p3: 'イベントにJ-Popやアニクラのコンテンツを取り入れたい',
       p3Highlight: 'イベントオーガナイザー',
-      p3Continue: 'とのコラボレーションを歓迎しています。一緒に思い出に残るイベント体験を作りましょう。',
-      rpd: 'ランダムプレイダンス', utattemita: 'カラオケ / 歌ってみた', anikura: 'アニソンクラブ', media: 'ドキュメンテーション & Jpopコンテンツ'
+      p3Continue: 'の皆さまとのコラボレーションも歓迎しています。心に残るイベントを一緒につくりましょう。',
+      rpd: 'ランダムプレイダンス', utattemita: 'カラオケ / 歌ってみた', anikura: 'アニソンクラブ', media: 'ドキュメンテーション & J-Popコンテンツ'
     },
     activities: {
       badge: '私たちの活動', title: 'RPD ＆ カラオケセッション',
-      description: '様々なイベントでのパフォーマンスをビデオドキュメンテーションでご覧ください。',
+      description: '様々なイベントでの私たちのパフォーマンスを、動画でぜひご覧ください。',
       share: 'シェア', viewAll: 'すべてのビデオを見る'
     },
     contact: {
-      title: 'コラボしてみない？',
-      description: 'イベントのタレントをお探しですか？J-Popのエネルギーであなたのイベントをもっと特別なものにします。',
-      descriptionHighlight: '一緒にコラボしよう！',
+      title: 'コラボレーションしませんか？',
+      description: 'イベントの出演者をお探しですか？J-Popの魅力で、あなたのイベントをより特別なものにします。',
+      descriptionHighlight: 'ぜひご一緒に。',
       ctaInstagram: 'インスタグラム', ctaEmail: 'メールをコピー'
     },
-    footer: { tagline: 'J-Popの愛を、一つひとつのイベントに 🌸', copyright: `© 2025–${new Date().getFullYear()} Shounen Shoujo. 💖で作られました by Akahara` },
-    toast: { emailCopied: 'メールがコピーされました！📋', linkCopied: 'リンクがコピーされました！🔗' },
+    footer: { tagline: 'RPD、アニクラ、そしてJ-Pop。あらゆるイベントへ。🌸', copyright: `© 2025–${new Date().getFullYear()} Shounen Shoujo. 制作：Akahara` },
+    toast: { emailCopied: 'メールをコピーしました。', linkCopied: 'リンクをコピーしました。' },
     theme: { toggle: 'テーマ切替' }
   }
 }
@@ -641,7 +641,7 @@ const copyToClipboard = async (text) => {
                 <span class="bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] bg-clip-text text-transparent">{{ t.about.badge }}</span>
               </div>
 
-              <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-6 sm:mb-8 leading-tight">
+              <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-6 sm:mb-8 leading-tight">
                 {{ t.about.title }}
                 <span class="block bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] bg-clip-text text-transparent">
                   {{ t.about.titleHighlight }}
@@ -726,7 +726,7 @@ const copyToClipboard = async (text) => {
               <span class="bg-gradient-to-r from-[#fea3fe] to-[#61fdfe] bg-clip-text text-transparent">{{ t.activities.badge }}</span>
             </div>
 
-            <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 sm:mb-6">{{ t.activities.title }}</h2>
+            <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-4 sm:mb-6">{{ t.activities.title }}</h2>
             <p class="text-base sm:text-lg md:text-xl text-subtle max-w-2xl mx-auto px-4">{{ t.activities.description }}</p>
           </div>
 
@@ -770,7 +770,7 @@ const copyToClipboard = async (text) => {
                   </div>
                 </a>
                 <div class="p-4 sm:p-6">
-                  <h3 class="text-lg sm:text-xl font-black text-fg group-hover:bg-gradient-to-r group-hover:from-[#fea3fe] group-hover:to-[#61fdfe] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 mb-2 sm:mb-3">
+                  <h3 class="font-heading text-lg sm:text-xl font-black text-fg group-hover:bg-gradient-to-r group-hover:from-[#fea3fe] group-hover:to-[#61fdfe] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 mb-2 sm:mb-3">
                     {{ video.title }}
                   </h3>
                   <button @click="shareVideo(video)"
@@ -816,7 +816,7 @@ const copyToClipboard = async (text) => {
                     <path d="M4 12l4-4 4 4 4-4 4 4" /><path d="M2 10l6-6" /><path d="M22 10l-6-6" />
                   </svg>
                 </div>
-                <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4 sm:mb-6 drop-shadow-2xl">
+                <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4 sm:mb-6 drop-shadow-2xl">
                   {{ t.contact.title }}
                 </h2>
                 <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-white/95 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed px-4">
@@ -923,6 +923,7 @@ const copyToClipboard = async (text) => {
    HERO — wordmark gradient (ikut tema via CSS var)
 =================================================== */
 .wordmark {
+  font-family: var(--font-heading);
   background-image: var(--wordmark-grad);
   -webkit-background-clip: text;
   background-clip: text;
