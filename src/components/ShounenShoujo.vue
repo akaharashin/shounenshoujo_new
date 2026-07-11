@@ -306,6 +306,7 @@ const videos = [
   { title: "ODORISHO RPD VOL. 2.5", thumbnail: "/image/thum2.webp", link: "https://youtu.be/gEXuPEbk85I?si=vURyUFI_WC-j8iRD" },
   { title: "ODORISHO RPD VOL. 3", thumbnail: "/image/thum3.webp", link: "https://youtu.be/4JzGPu56rQo?si=-j0TfUT7r65LL_E2" },
   { title: "ODORISHO RPD VOL. 4", thumbnail: "/image/thum5.webp", link: "https://youtu.be/BGQM8ZCF7Gk?si=D64XtKi3Ox4IuD2d" },
+  { title: "ODORISHO RPD VOL. 5", thumbnail: "/image/thum6.webp", link: "https://youtu.be/BGQM8ZCF7Gk?si=6-z165vAHS_bxo_A" },
   { title: "UTAISHO KARAOKE VOL. 1", thumbnail: "/image/thum4.webp", link: "https://youtu.be/Kh9qVLhWEmg?si=FgPafIoE-D1b_RKG" }
 ]
 
